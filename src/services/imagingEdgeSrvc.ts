@@ -58,9 +58,13 @@ class ImagingEdgeSrvc {
         recursive: true,
       })
       .filter((file) => (file as string).endsWith(`.${ext}`));
-    const bar = new cliProgress.SingleBar({
-      format: ' {bar} | {percentage}% | {filename} | ETA: {eta}s | {value}/{total}'
-    }, cliProgress.Presets.shades_grey);
+    const bar = new cliProgress.SingleBar(
+      {
+        format:
+          " {bar} | {percentage}% | {filename} | ETA: {eta}s | {value}/{total}",
+      },
+      cliProgress.Presets.shades_grey,
+    );
     bar.start(files.length, 0);
     for (const file of files as string[]) {
       const filePath = path.resolve(dir, file);
@@ -77,12 +81,12 @@ class ImagingEdgeSrvc {
     logger.info(
       `import files from '${this.iem.sourcePath}' to the target '${this.iem.targetPath}'.`,
     );
-    this.importFilesByExt({ folder: "DCIM", ext: "JPG", force: force });
-    this.importFilesByExt({ folder: "DCIM", ext: "ARW", force: force });
+    this.importFilesByExt({ folder: "DCIM", ext: "JPG", force });
+    this.importFilesByExt({ folder: "DCIM", ext: "ARW", force });
     this.importFilesByExt({
       folder: "PRIVATE/M4ROOT",
       ext: "MP4",
-      force: force,
+      force,
     });
   }
 }

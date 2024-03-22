@@ -25,7 +25,17 @@ describe("ImagingEdgeCtrl", () => {
 
   describe("Import all files", () => {
     it("should copy all files in target folder.", () => {
-      //
+      const manager = new ImagingEdgeSrvc(iem);
+      const target = path.resolve(__dirname, "../test/target");
+      
+      manager.importFiles();
+      const files = fs.readdirSync(target, { recursive: true });
+      const imageFiles = files
+        .filter((file) => (file as string).endsWith('.JPG'));
+      const videoFiles = files
+        .filter((file) => (file as string).endsWith('.MP4'));
+      expect(imageFiles.length).toBeGreaterThan(0);
+      expect(videoFiles.length).toBeGreaterThan(0);
     });
   });
 });
