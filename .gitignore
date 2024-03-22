@@ -130,4 +130,4 @@ dist
 .pnp.*
 
 # test
-src/test/target
+src/test

@@ -1,8 +1,13 @@
 import { ImagingEdgeMobile } from "../entities/imagingEdgeMobile";
 
-const iem = new ImagingEdgeMobile({
+const iemImport = new ImagingEdgeMobile({
   source: "./src/test/source",
   target: "./src/test/target",
 });
 
-export { iem };
+const iemExport = new ImagingEdgeMobile({
+  source: "./src/test/target",
+  target: "./src/test/ssd"
+});
+
+export { iemImport, iemExport };

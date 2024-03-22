@@ -61,7 +61,7 @@ class ImagingEdgeSrvc {
   }) {
     const targetFilePath = path.resolve(target, this.getFileName(file));
     if (force || !fs.existsSync(targetFilePath)) {
-      fs.copyFileSync(source, targetFilePath);
+      fs.cpSync(source, targetFilePath);
     }
   }
 
@@ -122,8 +122,17 @@ class ImagingEdgeSrvc {
     });
   }
 
+  /**
+   * export images, raw and videos files.
+   * @param force if true, force to copy existing files.
+   */
   public exportFiles(force: boolean = false) {
-    //
+    const files = fs.readdirSync(this.iem.sourcePath, { recursive: true });
+    for (const file of files) {
+      const sourcePath = path.resolve(this.iem.sourcePath, file as string);
+      const targetPath = path.resolve(this.iem.targetPath, file as string)
+      fs.cpSync(sourcePath, targetPath, { recursive: true });
+    }
   }
 }
 
