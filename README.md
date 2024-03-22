@@ -2,7 +2,7 @@
 
 ```sh
 Usage:
-  node app.ts [OPTION]
+  ts-node app.ts [OPTION]
 
 Options:
   -s, --source=ARG source location to import files
