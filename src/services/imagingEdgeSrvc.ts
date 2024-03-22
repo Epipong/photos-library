@@ -9,15 +9,30 @@ type extension = "JPG" | "ARW" | "MP4";
 class ImagingEdgeSrvc {
   constructor(private iem: ImagingEdgeMobile) {}
 
+  /**
+   * get the date format yyyy-MM-dddd.
+   * @param date
+   * @returns the date string formatted.
+   */
   private getYearMonthdayFormat(date: Date) {
     const dateString = date.toISOString();
     return dateString.substring(0, dateString.indexOf("T"));
   }
 
+  /**
+   * get the file name from the path
+   * @param file file name path.
+   * @returns the file name;
+   */
   private getFileName(file: string) {
     return file.split("/").pop() || "";
   }
 
+  /**
+   * create the path folder recursively.
+   * @param folder folder to create if not exist.
+   * @returns
+   */
   private createFolder(folder: string): string {
     const fullTargetPath = path.resolve(this.iem.targetPath, folder);
     if (!fs.existsSync(fullTargetPath)) {
@@ -26,6 +41,13 @@ class ImagingEdgeSrvc {
     return fullTargetPath;
   }
 
+  /**
+   * copy the source file to the target location.
+   * @param source file path to copy.
+   * @param target target location to paste.
+   * @param file target file name.
+   * @param force if true, force to copy existing files.
+   */
   private copyFile({
     source,
     target,
@@ -43,6 +65,12 @@ class ImagingEdgeSrvc {
     }
   }
 
+  /**
+   * import the files by extension and folder given.
+   * @param folder folder path of the files.
+   * @param ext extension of the file.
+   * @param force if true, force to copy existing files.
+   */
   public importFilesByExt({
     folder,
     ext,
@@ -77,6 +105,10 @@ class ImagingEdgeSrvc {
     bar.stop();
   }
 
+  /**
+   * import images, raw and videos files.
+   * @param force if true, force to copy existing files.
+   */
   public importFiles(force: boolean = false) {
     logger.info(
       `import files from '${this.iem.sourcePath}' to the target '${this.iem.targetPath}'.`,
@@ -88,6 +120,10 @@ class ImagingEdgeSrvc {
       ext: "MP4",
       force,
     });
+  }
+
+  public exportFiles(force: boolean = false) {
+    //
   }
 }
 
