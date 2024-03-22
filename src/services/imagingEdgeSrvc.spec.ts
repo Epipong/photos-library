@@ -42,7 +42,7 @@ describe("ImagingEdgeCtrl", () => {
 
       manager.exportFiles();
       const files = fs.readdirSync(iemExport.targetPath, { recursive: true });
-      expect(true).toBeTruthy();
+      expect(files.length).toBeGreaterThan(0);
     });
   });
 });
