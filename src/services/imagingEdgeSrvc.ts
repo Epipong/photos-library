@@ -26,40 +26,64 @@ class ImagingEdgeSrvc {
     return fullTargetPath;
   }
 
-  private copyFile(source: string, target: string, file: string) {
+  private copyFile({
+    source,
+    target,
+    file,
+    force,
+  }: {
+    source: string;
+    target: string;
+    file: string;
+    force?: boolean;
+  }) {
     const targetFilePath = path.resolve(target, this.getFileName(file));
-    if (!fs.existsSync(targetFilePath)) {
+    if (force || !fs.existsSync(targetFilePath)) {
       fs.copyFileSync(source, targetFilePath);
     }
   }
 
-  public importFilesByExt({ folder, ext }: { folder: string; ext: extension }) {
+  public importFilesByExt({
+    folder,
+    ext,
+    force,
+  }: {
+    folder: string;
+    ext: extension;
+    force?: boolean;
+  }) {
     const dir = path.resolve(this.iem.sourcePath, folder);
     const files = fs
       .readdirSync(dir, {
         recursive: true,
       })
       .filter((file) => (file as string).endsWith(`.${ext}`));
-    const bar = new cliProgress.SingleBar({}, cliProgress.Presets.legacy);
+    const bar = new cliProgress.SingleBar({
+      format: ' {bar} | {percentage}% | {filename} | ETA: {eta}s | {value}/{total}'
+    }, cliProgress.Presets.shades_grey);
     bar.start(files.length, 0);
     for (const file of files as string[]) {
       const filePath = path.resolve(dir, file);
-      const { birthtime } = fs.statSync(filePath);
-      const dateFmt = this.getYearMonthdayFormat(birthtime);
+      const { mtime } = fs.statSync(filePath);
+      const dateFmt = this.getYearMonthdayFormat(mtime);
       const targetFolder = this.createFolder(`${dateFmt}/${ext}`);
-      this.copyFile(filePath, targetFolder, file);
-      bar.increment();
+      this.copyFile({ source: filePath, target: targetFolder, file, force });
+      bar.increment({ filename: this.getFileName(file) });
     }
     bar.stop();
   }
 
-  public importFiles() {
+  public importFiles(force: boolean = false) {
     logger.info(
       `import files from '${this.iem.sourcePath}' to the target '${this.iem.targetPath}'.`,
     );
-    this.importFilesByExt({ folder: "DCIM", ext: "JPG" });
-    this.importFilesByExt({ folder: "DCIM", ext: "ARW" });
-    this.importFilesByExt({ folder: "PRIVATE/M4ROOT", ext: "ARW" });
+    this.importFilesByExt({ folder: "DCIM", ext: "JPG", force: force });
+    this.importFilesByExt({ folder: "DCIM", ext: "ARW", force: force });
+    this.importFilesByExt({
+      folder: "PRIVATE/M4ROOT",
+      ext: "MP4",
+      force: force,
+    });
   }
 }
 

@@ -13,7 +13,7 @@ describe("ImagingEdgeCtrl", () => {
   });
 
   describe("Import files by Extension", () => {
-    it("should", () => {
+    it("should copy JPG file to target folder.", () => {
       const manager = new ImagingEdgeSrvc(iem);
       const target = path.resolve(__dirname, "../test/target");
 
@@ -24,6 +24,8 @@ describe("ImagingEdgeCtrl", () => {
   });
 
   describe("Import all files", () => {
-    //
+    it("should copy all files in target folder.", () => {
+      //
+    });
   });
 });
