@@ -2,6 +2,7 @@
 import { ImagingEdgeMobile } from "./src/entities/imagingEdgeMobile";
 import Getopt from "node-getopt";
 import { OptionMap } from "./src/interfaces/parsedOption";
+import { ImagingEdgeSrvc } from "./src/services/imagingEdgeSrvc";
 
 const opt = Getopt.create([
   ["s", "source=ARG", "source location to import files"],
@@ -13,9 +14,9 @@ const opt = Getopt.create([
 
 const app = () => {
   const iem = new ImagingEdgeMobile(opt.options as OptionMap);
+  const manager = new ImagingEdgeSrvc(iem);
 
-  console.log("source: ", iem.sourcePath);
-  console.log("target: ", iem.targetPath);
+  manager.importFiles();
 };
 
 app();

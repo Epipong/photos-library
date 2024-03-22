@@ -11,13 +11,14 @@ class ImagingEdgeMobile {
     ["linux", `${path.resolve(__dirname, "../../davy/Pictures/Sony")}`],
   ]);
 
-  private _sourcePath?: string;
-  private _targetPath?: string;
+  private _sourcePath: string = "";
+  private _targetPath: string = "";
 
   /**
    * Imaging Edge Mobile class.
    * @param source relative path to the source folder.
    * @param target relative path to the target folder.
+   * @param platform
    */
   constructor({
     source,
@@ -29,19 +30,19 @@ class ImagingEdgeMobile {
     platform?: NodeJS.Platform;
   }) {
     if (!source && this.sourcePathByOs.has(platform)) {
-      this._sourcePath = this.sourcePathByOs.get(platform);
+      this._sourcePath = this.sourcePathByOs.get(platform) || "";
     } else if (source) {
       this.sourcePath = source;
     }
 
     if (!target && this.targetPathByOs.has(platform)) {
-      this._targetPath = this.targetPathByOs.get(platform);
+      this._targetPath = this.targetPathByOs.get(platform) || "";
     } else if (target) {
       this.targetPath = target;
     }
   }
 
-  public get sourcePath(): string | undefined {
+  public get sourcePath(): string {
     return this._sourcePath;
   }
 
@@ -49,7 +50,7 @@ class ImagingEdgeMobile {
     this._sourcePath = path.resolve(__dirname, "../..", source);
   }
 
-  public get targetPath(): string | undefined {
+  public get targetPath(): string {
     return this._targetPath;
   }
 
