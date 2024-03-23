@@ -6,4 +6,4 @@ interface tokenResponse {
   token_type: string;
 }
 
-export { tokenResponse }
+export { tokenResponse };
