@@ -7,7 +7,7 @@ const iemImport = new ImagingEdgeMobile({
 
 const iemExport = new ImagingEdgeMobile({
   source: "./src/test/target",
-  target: "./src/test/ssd"
+  target: "./src/test/ssd",
 });
 
 export { iemImport, iemExport };

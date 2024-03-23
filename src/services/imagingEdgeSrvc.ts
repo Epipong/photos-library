@@ -130,7 +130,7 @@ class ImagingEdgeSrvc {
     const files = fs.readdirSync(this.iem.sourcePath, { recursive: true });
     for (const file of files) {
       const sourcePath = path.resolve(this.iem.sourcePath, file as string);
-      const targetPath = path.resolve(this.iem.targetPath, file as string)
+      const targetPath = path.resolve(this.iem.targetPath, file as string);
       fs.cpSync(sourcePath, targetPath, { recursive: true });
     }
   }

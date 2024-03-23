@@ -9,6 +9,6 @@ const getopt = new Getopt([
 
 const opt = getopt.parse(process.argv.slice(3));
 
-getopt.setHelp(getopt.getHelp().replace('app.ts', 'app.ts [import|export]'));
+getopt.setHelp(getopt.getHelp().replace("app.ts", "app.ts [COMMAND]"));
 
 export { opt, getopt };

@@ -131,3 +131,6 @@ dist
 
 # test
 src/test
+
+# settings
+src/settings/oauth2.keys.json
