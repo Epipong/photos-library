@@ -134,3 +134,4 @@ src/test
 
 # settings
 src/settings/oauth2.keys.json
+src/settings/.init

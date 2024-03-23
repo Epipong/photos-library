@@ -3,11 +3,9 @@ import axios from "axios";
 import { config } from "../settings/config";
 import * as readline from 'readline';
 import { logger } from "../infrastructures/logger";
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
+import path from "path";
+import fs from "fs";
+import { tokenResponse } from "../interfaces/tokenResponse";
 
 class Auth {
   clientId: string;
@@ -61,20 +59,35 @@ class Auth {
     return url;
   }
 
+  private saveToken(data: tokenResponse) {
+    const targetPath = path.resolve(__dirname, '../settings/.init');
+    fs.writeFileSync(targetPath, JSON.stringify(data));
+  }
+
   private readCode() {
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
+    });
+
     rl.question('Code? ', async (answer) => {
       const code = decodeURIComponent(answer);
-      const { data } = await axios.post('https://www.googleapis.com/oauth2/v4/token', new URLSearchParams({
-        client_id: this.clientId,
-        client_secret: this.clientSecret,
-        code,
-        grant_type: 'authorization_code',
-        redirect_uri: this.redirectUri
-      }).toString(), {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        }
-      });
+      try {
+        const { data } = await axios.post('https://www.googleapis.com/oauth2/v4/token', new URLSearchParams({
+          client_id: this.clientId,
+          client_secret: this.clientSecret,
+          code,
+          grant_type: 'authorization_code',
+          redirect_uri: this.redirectUri
+        }).toString(), {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          }
+        });
+        this.saveToken(data);
+      } catch (err) {
+        logger.error(err);
+      }
       rl.close();
     });
   }
