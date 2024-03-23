@@ -5,7 +5,7 @@ import * as readline from 'readline';
 import { logger } from "../infrastructures/logger";
 import path from "path";
 import fs from "fs";
-import { tokenResponse } from "../interfaces/tokenResponse";
+import { tokenResponse } from "../interfaces/token-response";
 
 class Auth {
   clientId: string;
@@ -68,7 +68,7 @@ class Auth {
     if (!fs.existsSync(this.gPhotoAuthDir)) {
       fs.mkdirSync(this.gPhotoAuthDir);
     }
-    fs.writeFileSync(this.initFile, JSON.stringify(data));
+    fs.writeFileSync(this.initFile, JSON.stringify(data, null, 2));
     fs.writeFileSync(this.accessTokenFile, data.access_token);
     if (data.refresh_token) {
       fs.writeFileSync(this.refreshTokenFile, data.refresh_token);
@@ -84,12 +84,12 @@ class Auth {
     rl.question('Code? ', async (answer) => {
       const code = decodeURIComponent(answer);
       try {
-        const { data } = await axios.post('https://www.googleapis.com/oauth2/v4/token', new URLSearchParams({
+        const { data } = await axios.post(config.token_uri, new URLSearchParams({
           client_id: this.clientId,
           client_secret: this.clientSecret,
           code,
           grant_type: 'authorization_code',
-          redirect_uri: this.redirectUri
+          redirect_uri: this.redirectUri,
         }).toString(), {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded"
@@ -108,12 +108,25 @@ class Auth {
     return (Date.now() - +mtime) / 1000 | 0;
   }
 
-  public refresh() {
-    //
+  public async refresh() {
+    logger.info(`time to refresh`);
+    const refreshToken = fs.readFileSync(this.refreshTokenFile).toString();
+
+    const { data } = await axios.post('https://oauth2.googleapis.com/token', new URLSearchParams({
+      client_id: this.clientId,
+      client_secret: this.clientSecret,
+      refresh_token: refreshToken,
+      grant_type: 'refresh_token',
+    }).toString(), {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    });
+    logger.info(JSON.stringify(data))
   }
 
   public init() {
-    const url = this.createUrl("https://accounts.google.com/o/oauth2/auth", {
+    const url = this.createUrl(config.auth_uri, {
       client_id: this.clientId,
       redirect_uri: this.redirectUri,
       scope: this.redirectUrls.join(" "),
@@ -129,6 +142,7 @@ class Auth {
     try {
       const accessToken = fs.readFileSync(this.accessTokenFile).toString();
       const age = this.age(this.accessTokenFile);
+      logger.info(`age: ${age}`);
       if (age > 3600) {
         this.refresh();
       }

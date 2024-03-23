@@ -1,4 +1,4 @@
-import { ImagingEdgeMobile } from "../entities/imagingEdgeMobile";
+import { ImagingEdgeMobile } from "../entities/imaging-edge-mobile";
 import fs from "fs";
 import path from "path";
 import cliProgress from "cli-progress";

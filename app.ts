@@ -1,9 +1,9 @@
 #!/usr/bin/env ts-node
-import { ImagingEdgeMobile } from "./src/entities/imagingEdgeMobile";
+import { ImagingEdgeMobile } from "./src/entities/imaging-edge-mobile";
 import { getopt, opt } from "./src/entities/opt";
-import { OptionMap } from "./src/interfaces/parsedOption";
+import { OptionMap } from "./src/interfaces/parsed-option";
 import { auth } from "./src/services/auth";
-import { ImagingEdgeSrvc } from "./src/services/imagingEdgeSrvc";
+import { ImagingEdgeSrvc } from "./src/services/imaging-edge-srvc";
 
 const main = () => {
   const iem = new ImagingEdgeMobile(opt.options as OptionMap);

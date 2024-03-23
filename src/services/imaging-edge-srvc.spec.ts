@@ -1,5 +1,5 @@
 import { iemExport, iemImport } from "../fixtures/iem";
-import { ImagingEdgeSrvc } from "./imagingEdgeSrvc";
+import { ImagingEdgeSrvc } from "./imaging-edge-srvc";
 import fs from "fs";
 
 describe("ImagingEdgeCtrl", () => {

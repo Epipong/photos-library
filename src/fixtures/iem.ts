@@ -1,4 +1,4 @@
-import { ImagingEdgeMobile } from "../entities/imagingEdgeMobile";
+import { ImagingEdgeMobile } from "../entities/imaging-edge-mobile";
 
 const iemImport = new ImagingEdgeMobile({
   source: "./src/test/source",

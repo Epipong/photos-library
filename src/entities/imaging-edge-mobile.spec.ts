@@ -1,4 +1,4 @@
-import { ImagingEdgeMobile } from "./imagingEdgeMobile";
+import { ImagingEdgeMobile } from "./imaging-edge-mobile";
 
 describe("Imaging Edge Mobile", () => {
   it("should set a default target and source path for linux platform", () => {
