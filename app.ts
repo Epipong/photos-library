@@ -1,7 +1,7 @@
 #!/usr/bin/env ts-node
 import { ImagingEdgeMobile } from "./src/entities/imaging-edge-mobile";
 import { getopt, opt } from "./src/entities/opt";
-import { OptionMap } from "./src/interfaces/parsed-option";
+import { OptionMap } from "./src/interfaces/option-map";
 import { auth } from "./src/services/auth";
 import { ImagingEdgeSrvc } from "./src/services/imaging-edge-srvc";
 
