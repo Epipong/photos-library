@@ -24,6 +24,11 @@ class Auth {
     ["win32", "start"],
   ]);
 
+  readonly gPhotoAuthDir = path.resolve(__dirname, '../settings/.gphotos_auth');
+  readonly initFile = path.resolve(this.gPhotoAuthDir, 'init');
+  readonly refreshTokenFile = path.resolve(this.gPhotoAuthDir, 'refresh_token');
+  readonly accessTokenFile = path.resolve(this.gPhotoAuthDir, 'access_token');
+
   constructor({
     client_id,
     project_id,
@@ -60,8 +65,14 @@ class Auth {
   }
 
   private saveToken(data: tokenResponse) {
-    const targetPath = path.resolve(__dirname, '../settings/.init');
-    fs.writeFileSync(targetPath, JSON.stringify(data));
+    if (!fs.existsSync(this.gPhotoAuthDir)) {
+      fs.mkdirSync(this.gPhotoAuthDir);
+    }
+    fs.writeFileSync(this.initFile, JSON.stringify(data));
+    fs.writeFileSync(this.accessTokenFile, data.access_token);
+    if (data.refresh_token) {
+      fs.writeFileSync(this.refreshTokenFile, data.refresh_token);
+    }
   }
 
   private readCode() {
@@ -92,6 +103,15 @@ class Auth {
     });
   }
 
+  private age(filepath: string) {
+    const { mtime } = fs.statSync(filepath);
+    return (Date.now() - +mtime) / 1000 | 0;
+  }
+
+  public refresh() {
+    //
+  }
+
   public init() {
     const url = this.createUrl("https://accounts.google.com/o/oauth2/auth", {
       client_id: this.clientId,
@@ -103,6 +123,18 @@ class Auth {
     exec(`${start} '${url}'`);
 
     this.readCode();
+  }
+
+  public token() {
+    try {
+      const accessToken = fs.readFileSync(this.accessTokenFile).toString();
+      const age = this.age(this.accessTokenFile);
+      if (age > 3600) {
+        this.refresh();
+      }
+    } catch {
+      throw Error("Unknown context. Try initing first.");
+    }
   }
 }
 

@@ -8,12 +8,15 @@ import { ImagingEdgeSrvc } from "./src/services/imagingEdgeSrvc";
 const main = () => {
   const iem = new ImagingEdgeMobile(opt.options as OptionMap);
   const manager = new ImagingEdgeSrvc(iem);
+
   if (process.argv[2] == "import") {
     manager.importFiles(opt.options.force as boolean);
   } else if (process.argv[2] == "export") {
     manager.exportFiles(opt.options.force as boolean);
   } else if (process.argv[2] == "init") {
     auth.init();
+  } else if (process.argv[2] == "token") {
+    auth.token();
   } else {
     getopt.showHelp();
   }
