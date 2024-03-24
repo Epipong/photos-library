@@ -1,4 +1,4 @@
-import axios, { Method } from "axios";
+import axios, { AxiosError, Method } from "axios";
 import { auth } from "./auth";
 import { logger } from "../infrastructures/logger";
 import { Album, AlbumsResponse } from "../interfaces/albums-response";
@@ -39,12 +39,12 @@ class GooglePhotosLibrary {
       });
       return data;
     } catch (err) {
-      logger.error(`[invoke]: ${(err as Error).message}`);
-      logger.error(`[invoke]: ${(err as Error).stack}`);
+      logger.error(`[invoke] message: ${(err as AxiosError).message}`);
+      logger.error(JSON.stringify((err as AxiosError).response?.data, null, 2));
     }
   }
 
-  public async getAlbums() {
+  public async getAlbums(): Promise<AlbumsResponse> {
     return this.invoke({ url: `${this.apiBase}/v1/albums` });
   }
 
@@ -55,7 +55,14 @@ class GooglePhotosLibrary {
     albumId: string;
     newMediaItems: MediaItem[];
   }) {
-    //
+    const result = await this.invoke({
+      url: `${this.apiBase}/v1/mediaItems:batchCreate`,
+      method: "POST",
+      body: {
+        albumId: albumId,
+        newMediaItems: newMediaItems,
+      },
+    });
   }
 
   private async uploadMedia(albumId: string, source: string) {
@@ -88,17 +95,28 @@ class GooglePhotosLibrary {
     return mediaItems;
   }
 
+  private async createAlbum(title: string): Promise<Album> {
+    return this.invoke({
+      url: `${this.apiBase}/v1/albums`,
+      method: 'POST',
+      body: {
+        album: {
+          title: title
+        }
+      }
+    });
+  }
+
   public async main({ title, source }: { title?: string; source?: string }) {
     const result = await this.getAlbums();
     if (title) {
-      const album = result!.albums.find((album: Album) =>
+      const album = result.albums.find((album: Album) =>
         album.title.includes(title),
-      );
-      if (!album) {
-        return;
-      }
+      ) || await this.createAlbum(title);
+      logger.info(JSON.stringify(album, null, 2));
       if (source) {
         const mediaItems = await this.uploadMedia(album.id, source);
+        logger.info(JSON.stringify(mediaItems, null, 2));
         this.batchCreateMediaItems({
           albumId: album.id,
           newMediaItems: mediaItems,
