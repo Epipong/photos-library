@@ -1,12 +1,14 @@
+interface Album {
+  id: string;
+  title: string;
+  productUrl: string;
+  mediaItemsCount: string;
+  coverPhotoBaseUrl: string;
+  coverPhotoMediaItemId: string;
+}
+
 interface AlbumsResponse {
-  albums: {
-    id: string;
-    title: string;
-    productUrl: string;
-    mediaItemsCount: string;
-    coverPhotoBaseUrl: string;
-    coverPhotoMediaItemId: string;
-  }
+  albums: Album[]
 };
 
-export { AlbumsResponse };
+export { AlbumsResponse, Album };

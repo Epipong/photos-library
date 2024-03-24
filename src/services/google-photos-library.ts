@@ -8,7 +8,7 @@ class GooglePhotosLibrary {
 
   private async invoke(url: string): Promise<AlbumsResponse | undefined> {
     try {
-      const token = auth.token();
+      const token = await auth.token();
       const { data } = await axios.get(url, {
         headers: {
           Authorization: `Bearer ${token}`
@@ -21,8 +21,12 @@ class GooglePhotosLibrary {
     }
   }
 
-  public async albums() {
+  public async getAlbums() {
     return this.invoke(`${this.apiBase}/albums`);
+  }
+
+  public async publishToAlbum() {
+    //
   }
 }
 

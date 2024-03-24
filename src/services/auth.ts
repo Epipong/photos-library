@@ -131,10 +131,10 @@ class Auth {
     this.readCode();
   }
 
-  public token(): string {
+  public async token(): Promise<string> {
     try {
       if (this.isTokenExpired(this.accessTokenFile)) {
-        this.refresh();
+        await this.refresh();
       }
       this.accessToken = fs.readFileSync(this.accessTokenFile).toString();
       return this.accessToken;

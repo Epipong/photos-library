@@ -19,10 +19,11 @@ const main = async () => {
   } else if (process.argv[2] == "init") {
     await auth.init();
   } else if (process.argv[2] == "token") {
-    auth.token();
+    await auth.token();
   } else if (process.argv[2] == "albums") {
-    const albums = await photos.albums();
-    logger.info(JSON.stringify(albums));
+    const result = await photos.getAlbums();
+    const albums = result!.albums.map((album) => album.title);
+    logger.info(JSON.stringify(albums, null, 2));
   } else {
     getopt.showHelp();
   }
