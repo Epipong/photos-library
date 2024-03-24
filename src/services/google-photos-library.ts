@@ -8,13 +8,15 @@ class GooglePhotosLibrary {
 
   private async invoke(url: string): Promise<AlbumsResponse | undefined> {
     try {
-      const token = await auth.token();
-      const { data } = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      return data;
+      return await auth.token()
+        .then(async (token) => {
+          const { data } = await axios.get(url, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          return data;
+        });
     } catch (err) {
       logger.error(`[invoke]: ${(err as Error).message}`);
       logger.error(`[invoke]: ${(err as Error).stack}`);
@@ -27,6 +29,17 @@ class GooglePhotosLibrary {
 
   public async publishToAlbum() {
     //
+  }
+
+  public async main({ title }: { title?: string }) {
+    const result = await this.getAlbums();
+    if (title) {
+      logger.info(title)
+      const album = result!.albums.find(album => album.title.includes(title))
+      logger.info(JSON.stringify(album, null, 2));
+    } else {
+      logger.info(JSON.stringify(result, null, 2));
+    }
   }
 }
 
