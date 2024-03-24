@@ -55,7 +55,7 @@ class GooglePhotosLibrary {
     albumId: string;
     newMediaItems: MediaItem[];
   }) {
-    const result = await this.invoke({
+    await this.invoke({
       url: `${this.apiBase}/v1/mediaItems:batchCreate`,
       method: "POST",
       body: {
@@ -98,26 +98,26 @@ class GooglePhotosLibrary {
   private async createAlbum(title: string): Promise<Album> {
     return this.invoke({
       url: `${this.apiBase}/v1/albums`,
-      method: 'POST',
+      method: "POST",
       body: {
         album: {
-          title: title
-        }
-      }
+          title: title,
+        },
+      },
     });
   }
 
   public async main({ title, source }: { title?: string; source?: string }) {
     const result = await this.getAlbums();
     if (title) {
-      const album = result.albums.find((album: Album) =>
+      const album = result.albums?.find((album: Album) =>
         album.title.includes(title),
       ) || await this.createAlbum(title);
       logger.info(JSON.stringify(album, null, 2));
       if (source) {
         const mediaItems = await this.uploadMedia(album.id, source);
         logger.info(JSON.stringify(mediaItems, null, 2));
-        this.batchCreateMediaItems({
+        await this.batchCreateMediaItems({
           albumId: album.id,
           newMediaItems: mediaItems,
         });
