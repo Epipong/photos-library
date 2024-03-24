@@ -17,7 +17,7 @@ Commands:\n\
   import,           import files\n\
   export,           export files\n\
   init,             log in for Google Photos API\n\
-  token,            get the token for the Google Photos API\n\
+  token,            get the token the Google Photos API\n\
   albums,           get the albums collection\n\
 \n\
 Options:\n\

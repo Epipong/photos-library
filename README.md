@@ -17,7 +17,10 @@ Set up your file **oauth2.key.json** in **./src/settings/**:
         └── oauth2.key.json
 ```
 
-Inside the file oauth2.keys.json:
+Inside the file oauth2.keys.json, set up your own web fields:
+- client_id
+- client_secret
+- project_id
 ```json
 {
   "web": {
@@ -46,7 +49,7 @@ Commands:
   import,          import files
   export,          export files
   init,            log in for Google Photos API
-  token,           get the token for the Google Photos API
+  token,           get the token for Google Photos API
   albums,          get the albums collection
 
 Options:
@@ -55,4 +58,36 @@ Options:
   -f, --force      force the copy of the files if they already exist
   -t, --title       title of the album
   -h, --help       display this help
+```
+
+## Usage
+
+### Case 1 - import media files from SD Card
+
+```sh
+# display the content of the SD Card directory
+> tree /storage/0000-0000
+/storage/0000-0000
+├── DCIM
+│   └── 100MSDCF
+│       ├── DSC00001.ARW
+│       └── DSC00001.JPG
+└── PRIVATE
+    └── M4ROOT
+        └── CLIP
+            └── C0001.MP4
+
+# run the import command
+> ts-node app.ts import -s /storage/0000-0000 -t /home/user/pictures
+
+# display the content of the imported files
+> tree /home/user/pictures
+/home/user/pictures
+└── 2024-03-22
+    ├── ARW
+    │   └── DSC00001.ARW
+    ├── JPG
+    │   └── DSC00001.JPG
+    └── MP4
+        └── C0001.MP4
 ```
