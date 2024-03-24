@@ -1,8 +1,10 @@
 #!/usr/bin/env ts-node
 import { ImagingEdgeMobile } from "./src/entities/imaging-edge-mobile";
 import { getopt, opt } from "./src/entities/opt";
+import { logger } from "./src/infrastructures/logger";
 import { OptionMap } from "./src/interfaces/option-map";
 import { auth } from "./src/services/auth";
+import { tools } from "./src/services/google-photos-tools";
 import { ImagingEdgeSrvc } from "./src/services/imaging-edge-srvc";
 
 const main = async () => {
@@ -17,6 +19,9 @@ const main = async () => {
     await auth.init();
   } else if (process.argv[2] == "token") {
     auth.token();
+  } else if (process.argv[2] == "albums") {
+    const albums = await tools.albums();
+    logger.info(JSON.stringify(albums));
   } else {
     getopt.showHelp();
   }

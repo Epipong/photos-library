@@ -19,6 +19,9 @@ class Auth {
   redirectUrls: string[];
   redirectUri: string;
 
+  accessToken?: string;
+  refreshToken?: string;
+
   openCmds: Map<NodeJS.Platform, string> = new Map([
     ["android", "termux-open-url"],
     ["linux", "/mnt/c/Program\\ Files/Google/Chrome/Application/chrome.exe"],
@@ -53,9 +56,11 @@ class Auth {
       fs.mkdirSync(this.gPhotoAuthDir);
     }
     fs.writeFileSync(this.initFile, JSON.stringify(data, null, 2));
+    this.accessToken = data.access_token;
     fs.writeFileSync(this.accessTokenFile, data.access_token);
     if (data.refresh_token) {
       fs.writeFileSync(this.refreshTokenFile, data.refresh_token);
+      this.refreshToken = data.refresh_token;
     }
   }
 
@@ -138,12 +143,13 @@ class Auth {
     this.readCode();
   }
 
-  public token() {
+  public token(): string {
     try {
       if (this.isTokenExpired(this.accessTokenFile)) {
         // this.refresh();
       }
-      const accessToken = fs.readFileSync(this.accessTokenFile).toString();
+      this.accessToken = fs.readFileSync(this.accessTokenFile).toString();
+      return this.accessToken;
     } catch {
       throw Error("Unknown context. Try initing first.");
     }
