@@ -1,12 +1,12 @@
 import axios from "axios";
 import { auth } from "./auth";
 import { logger } from "../infrastructures/logger";
-import { Albums } from "../interfaces/albums-response";
+import { AlbumsResponse } from "../interfaces/albums-response";
 
 class GooglePhotosTools {
   apiBase = 'https://photoslibrary.googleapis.com/v1';
 
-  private async invoke(url: string): Promise<Albums | undefined> {
+  private async invoke(url: string): Promise<AlbumsResponse | undefined> {
     try {
       logger.info(`token: ${auth.token()}`)
       const { data } = await axios.get(url, {

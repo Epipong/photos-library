@@ -1,4 +1,4 @@
-interface Albums {
+interface AlbumsResponse {
   albums: {
     id: string;
     title: string;
@@ -9,4 +9,4 @@ interface Albums {
   }
 };
 
-export { Albums };
+export { AlbumsResponse };
