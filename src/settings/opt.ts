@@ -18,14 +18,14 @@ Commands:\n\
   import,           import files\n\
   export,           export files\n\
   init,             log in for Google Photos API\n\
-  token,            get the token the Google Photos API\n\
-  albums,           get the albums collection\n\
+  token,            get the token for Google Photos API\n\
+  albums,           get the albums collection or upload images to Google Photos\n\
 \n\
 Options:\n\
   -s, --source=PATH source location to import files\n\
   -t, --target=PATH target location to import files\n\
   -f, --force       force the copy of the files if they already exist\n\
-  -t, --title=ARG   title of the album\n\
+      --title=ARG   title of the album\n\
   -h, --help        display this help\n\
 ",
 );

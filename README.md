@@ -11,7 +11,7 @@ Application to manage the media files for Sony Alpha cameras.
 
 ## Requirements
 
-Set up your file **oauth2.key.json** in **./src/settings/**:
+Set up your file `oauth2.key.json` in `./src/settings/`:
 
 ```sh
 .
@@ -20,7 +20,7 @@ Set up your file **oauth2.key.json** in **./src/settings/**:
         └── oauth2.key.json
 ```
 
-Inside the file oauth2.keys.json, set up your own web fields:
+Inside the file oauth2.keys.json, set up the following fields:
 
 - client_id
 - client_secret
@@ -45,6 +45,9 @@ Inside the file oauth2.keys.json, set up your own web fields:
 }
 ```
 
+## Installation
+Run `npm install`.
+
 ## Help
 
 ```
@@ -52,24 +55,24 @@ Usage:
   ts-node app.ts [COMMAND] [OPTION]
 
 Commands:
-  import,          import files
-  export,          export files
-  init,            log in for Google Photos API
-  token,           get the token for Google Photos API
-  albums,          get the albums collection
+  import,           import files
+  export,           export files
+  init,             log in for Google Photos API
+  token,            get the token for Google Photos API
+  albums,           get the albums collection or upload images to Google Photos
 
 Options:
-  -s, --source=ARG source location to import files
-  -t, --target=ARG target location to import files
-  -f, --force      force the copy of the files if they already exist
-  -t, --title       title of the album
-  -h, --help       display this help
+  -s, --source=PATH source location to import files
+  -t, --target=PATH target location to import files
+  -f, --force       force the copy of the files if they already exist
+      --title=ARG   title of the album
+  -h, --help        display this help
 ```
 
 ## Usage
 
 ### Case 1 - import media files from SD Card
-
+The command lines will import the media files from `/storage/0000-0000` to `/home/user/pictures`
 ```sh
 # display the content of the SD Card directory
 > tree /storage/0000-0000
@@ -97,3 +100,24 @@ Options:
     └── MP4
         └── C0001.MP4
 ```
+
+## Case 2 - export to external storage
+The command line will copy the content from `/home/user/pictures` to `/mnt/e/pictures`
+```sh
+# run the import command
+> ts-node app.ts export -s /home/user/pictures -t /mnt/e/pictures
+```
+
+## Case 3 - upload the images to Google Photos
+The command lines will init a valid token and upload all JPG images in `/home/user/pictures`
+to the album called `Summer 2024`. If the album doesn't exist, it will be created.
+```sh
+# open a link to log in, connect to your account then copy / paste the link to extract the code
+> ts-node app.ts init
+Enter the link? https://www.googleapis.com/auth/photoslibrary?code=XXXX-XXX&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fphotoslibrary.sharing+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fphotoslibrary+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fphotoslibrary.appendonly
+
+# upload all images to the album 'summer 2024' 
+> ts-node app.ts album --title 'Summer 2024' -s /home/user/pictures
+```
+
+ps: the images can be upload only from album created by this app.
