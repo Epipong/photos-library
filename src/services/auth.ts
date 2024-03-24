@@ -109,29 +109,7 @@ class Auth {
     return elapsed > 3600;
   }
 
-  // TODO
-  public async refresh() {
-    logger.info(`time to refresh`);
-    const refreshToken = fs.readFileSync(this.refreshTokenFile).toString();
-
-    const { data } = await axios.post(
-      "https://oauth2.googleapis.com/token",
-      new URLSearchParams({
-        client_id: this.clientId,
-        client_secret: this.clientSecret,
-        refresh_token: refreshToken,
-        grant_type: "refresh_token",
-      }),
-      {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      },
-    );
-    logger.info(JSON.stringify(data));
-  }
-
-  public async init() {
+  private openAuthLink() {
     const url = this.createUrl(config.auth_uri, {
       client_id: this.clientId,
       redirect_uri: this.redirectUri,
@@ -140,13 +118,22 @@ class Auth {
     });
     const start = this.openCmds.get(process.platform) || "xdg-open";
     exec(`${start} '${url}'`);
+  }
+
+  public async refresh() {
+    this.openAuthLink();
+    this.readCode();
+  }
+
+  public async init() {
+    this.openAuthLink();
     this.readCode();
   }
 
   public token(): string {
     try {
       if (this.isTokenExpired(this.accessTokenFile)) {
-        // this.refresh();
+        this.refresh();
       }
       this.accessToken = fs.readFileSync(this.accessTokenFile).toString();
       return this.accessToken;

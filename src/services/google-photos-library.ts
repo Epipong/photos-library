@@ -3,15 +3,15 @@ import { auth } from "./auth";
 import { logger } from "../infrastructures/logger";
 import { AlbumsResponse } from "../interfaces/albums-response";
 
-class GooglePhotosTools {
+class GooglePhotosLibrary {
   apiBase = 'https://photoslibrary.googleapis.com/v1';
 
   private async invoke(url: string): Promise<AlbumsResponse | undefined> {
     try {
-      logger.info(`token: ${auth.token()}`)
+      const token = auth.token();
       const { data } = await axios.get(url, {
         headers: {
-          Authorization: `Bearer ${auth.token()}`
+          Authorization: `Bearer ${token}`
         }
       });
       return data;
@@ -26,6 +26,4 @@ class GooglePhotosTools {
   }
 }
 
-const tools = new GooglePhotosTools();
-
-export { tools };
+export { GooglePhotosLibrary };
