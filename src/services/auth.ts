@@ -91,7 +91,7 @@ class Auth {
 
     rl.question("Enter the link? ", async (answer) => {
       const url = new URL(answer);
-      const code = decodeURIComponent(url.searchParams.get('code')!);
+      const code = decodeURIComponent(url.searchParams.get("code")!);
       try {
         const data = await this.generateToken(code);
         this.saveToken(data);
@@ -115,7 +115,7 @@ class Auth {
       client_id: this.clientId,
       redirect_uri: this.redirectUri,
       scope: this.redirectUrls.join(" "),
-      response_type: "code"
+      response_type: "code",
     });
     const start = this.openCmds.get(process.platform) || "xdg-open";
     exec(`${start} '${url}'`);

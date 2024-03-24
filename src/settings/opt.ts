@@ -10,7 +10,8 @@ const getopt = new Getopt([
 
 const opt = getopt.parse(process.argv.slice(3));
 
-getopt.setHelp("Usage:\n\
+getopt.setHelp(
+  "Usage:\n\
   ts-node app.ts [COMMAND] [OPTION]...\n\
 \n\
 Commands:\n\
@@ -26,6 +27,7 @@ Options:\n\
   -f, --force       force the copy of the files if they already exist\n\
   -t, --title=ARG   title of the album\n\
   -h, --help        display this help\n\
-");
+",
+);
 
 export { opt, getopt };

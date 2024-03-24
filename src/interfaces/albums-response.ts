@@ -8,7 +8,7 @@ interface Album {
 }
 
 interface AlbumsResponse {
-  albums: Album[]
-};
+  albums: Album[];
+}
 
 export { AlbumsResponse, Album };

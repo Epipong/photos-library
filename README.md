@@ -3,13 +3,16 @@
 Application to manage the media files for Sony Alpha cameras.
 
 ## Features
+
 - import the media files and sort by date created and type.
 - export the media files to a specific location.
 - initialize a connection to Google Photos API.
 - publish the photos JPG to a specific album.
 
 ## Requirements
+
 Set up your file **oauth2.key.json** in **./src/settings/**:
+
 ```sh
 .
 └── src
@@ -18,9 +21,11 @@ Set up your file **oauth2.key.json** in **./src/settings/**:
 ```
 
 Inside the file oauth2.keys.json, set up your own web fields:
+
 - client_id
 - client_secret
 - project_id
+
 ```json
 {
   "web": {
@@ -41,6 +46,7 @@ Inside the file oauth2.keys.json, set up your own web fields:
 ```
 
 ## Help
+
 ```
 Usage:
   ts-node app.ts [COMMAND] [OPTION]
