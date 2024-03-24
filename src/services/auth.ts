@@ -89,8 +89,9 @@ class Auth {
       output: process.stdout,
     });
 
-    rl.question("Enter the code? ", async (answer) => {
-      const code = decodeURIComponent(answer);
+    rl.question("Enter the link? ", async (answer) => {
+      const url = new URL(answer);
+      const code = decodeURIComponent(url.searchParams.get('code')!);
       try {
         const data = await this.generateToken(code);
         this.saveToken(data);
