@@ -106,7 +106,7 @@ class Auth {
   private isTokenExpired(filepath: string): boolean {
     const { mtime } = fs.statSync(filepath);
     const elapsed = ((Date.now() - +mtime) / 1000) | 0;
-    logger.info(`elapsed time: ${elapsed}s`);
+    // logger.info(`elapsed time: ${elapsed}s`);
     return elapsed > 3600;
   }
 
@@ -134,7 +134,7 @@ class Auth {
   public async token(): Promise<string> {
     try {
       if (this.isTokenExpired(this.accessTokenFile)) {
-        await this.refresh();
+        throw Error("Init a new token.");
       }
       this.accessToken = fs.readFileSync(this.accessTokenFile).toString();
       return this.accessToken;
