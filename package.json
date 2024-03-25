@@ -6,17 +6,20 @@
   "scripts": {
     "start": "yarn dotenv -e .env ts-node app.ts",
     "test": "jest",
-    "prettier": "npx prettier . --write"
+    "prettier": "npx prettier . --write",
+    "fix:getopt": "sed -i 's|\"main\" : \"./lib\"|\"files\" : [\"bin\", \"lib\", \"index.js\"]|g' node_modules/node-getopt/package.json"
   },
   "keywords": [],
   "author": "davy.tran <davytran1993@gmail.com>",
   "dependencies": {
+    "ansi-colors": "^4.1.3",
     "axios": "^1.6.8",
     "cli-progress": "^3.12.0",
     "node-getopt": "^0.3.2",
     "prettier": "^3.2.5"
   },
   "devDependencies": {
+    "@types/ansi-colors": "^3.2.2",
     "@types/cli-progress": "^3.11.5",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.30",

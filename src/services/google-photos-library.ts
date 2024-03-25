@@ -71,6 +71,7 @@ class GooglePhotosLibrary implements PhotosProvider {
     albumId: string;
     newMediaItems: MediaItem[];
   }) {
+    bar.start((newMediaItems.length / 50 | 0) + 1, 0);
     for (let i = 0; i < newMediaItems.length; i += this.chunkSize) {
       const items = newMediaItems.slice(i, i + this.chunkSize);
       await this.invoke({
@@ -81,7 +82,9 @@ class GooglePhotosLibrary implements PhotosProvider {
           newMediaItems: items,
         },
       });
+      bar.increment({ filename: albumId });
     }
+    bar.stop()
   }
 
   /**
