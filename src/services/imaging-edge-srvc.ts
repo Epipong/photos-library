@@ -2,7 +2,6 @@ import { ImagingEdgeMobile } from "../entities/imaging-edge-mobile";
 import fs from "fs";
 import path from "path";
 import cliProgress from "cli-progress";
-import { logger } from "../infrastructures/logger";
 
 type extension = "JPG" | "ARW" | "MP4";
 
@@ -110,9 +109,6 @@ class ImagingEdgeSrvc {
    * @param force if true, force to copy existing files.
    */
   public importFiles(force: boolean = false) {
-    logger.info(
-      `import files from '${this.iem.sourcePath}' to the target '${this.iem.targetPath}'.`,
-    );
     this.importFilesByExt({ folder: "DCIM", ext: "JPG", force });
     this.importFilesByExt({ folder: "DCIM", ext: "ARW", force });
     this.importFilesByExt({

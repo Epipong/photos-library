@@ -2,19 +2,17 @@
   "name": "iem-express",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "license": "UNLICENSED",
   "scripts": {
-    "start": "ts-node app.ts",
+    "start": "yarn dotenv -e .env ts-node app.ts",
     "test": "jest",
     "prettier": "npx prettier . --write"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "davy.tran <davytran1993@gmail.com>",
   "dependencies": {
     "axios": "^1.6.8",
     "cli-progress": "^3.12.0",
-    "dotenv": "^16.4.5",
     "node-getopt": "^0.3.2",
     "prettier": "^3.2.5"
   },
@@ -24,10 +22,14 @@
     "@types/node": "^20.11.30",
     "@types/node-getopt": "^0.2.35",
     "@types/sinon": "^17.0.3",
+    "dotenv": "^16.4.5",
+    "dotenv-cli": "^7.4.1",
     "jest": "^29.7.0",
     "ts-jest": "^29.1.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.4.3",
     "winston": "^3.12.0"
-  }
+  },
+  "repository": "git@github.com:Epipong/iem-express.git",
+  "private": false
 }
