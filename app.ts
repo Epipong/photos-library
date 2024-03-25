@@ -1,15 +1,19 @@
 #!/usr/bin/env ts-node
 import { ImagingEdgeMobile } from "./src/entities/imaging-edge-mobile";
 import { getopt, opt } from "./src/settings/opt";
-import { auth } from "./src/services/auth";
 import { GooglePhotosLibrary } from "./src/services/google-photos-library";
 import { ImagingEdgeSrvc } from "./src/services/imaging-edge-srvc";
 import Getopt from "node-getopt";
+import { PhotosProvider } from "./src/interfaces/photos.provider";
+import { AuthProvider } from "./src/interfaces/auth.provider";
+import { GoogleAuth } from "./src/services/google-auth";
+import { config } from "./src/settings/config";
 
 const main = async () => {
+  const auth: AuthProvider = new GoogleAuth(config);
   const iem = new ImagingEdgeMobile(opt.options);
   const manager = new ImagingEdgeSrvc(iem);
-  const photos = new GooglePhotosLibrary();
+  const photos: PhotosProvider = new GooglePhotosLibrary(auth);
   const cmd: string = process.argv[2];
   const commands: {
     [cmd: string]: () => void | Promise<void> | Promise<string> | Getopt;

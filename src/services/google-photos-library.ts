@@ -1,13 +1,18 @@
 import axios, { AxiosError, Method } from "axios";
-import { auth } from "./auth";
 import { logger } from "../infrastructures/logger";
 import { Album, AlbumsResponse } from "../interfaces/albums-response";
 import fs from "fs";
 import path from "path";
 import { MediaItem } from "../interfaces/media-item";
 import { singleBar as bar } from "../entities/single-bar";
+import { PhotosProvider } from "../interfaces/photos.provider";
+import { AuthProvider } from "../interfaces/auth.provider";
 
-class GooglePhotosLibrary {
+class GooglePhotosLibrary implements PhotosProvider {
+  constructor(
+    private auth: AuthProvider,
+  ) {}
+
   apiBase = "https://photoslibrary.googleapis.com";
 
   private async invoke({
@@ -26,7 +31,7 @@ class GooglePhotosLibrary {
     headers?: any;
   }) {
     try {
-      const token = await auth.token();
+      const token = await this.auth.token();
       const { data } = await axios({
         url,
         method,

@@ -11,7 +11,8 @@ Application to manage the media files for Sony Alpha cameras.
 
 ## Requirements
 
-Set up your file `oauth2.key.json` in `./src/settings/`:
+### Configuration - Google Photos API
+Set up your file `oauth2.key.json` in `./src/settings/` to use **Google Photos API**.
 
 ```sh
 .

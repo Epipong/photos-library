@@ -8,8 +8,9 @@ import fs from "fs";
 import { tokenResponse } from "../interfaces/token-response";
 import { GoogleRequestParams } from "../interfaces/google-request-params";
 import { GoogleOauth2Web } from "../interfaces/google-oauth2-web";
+import { AuthProvider } from "../interfaces/auth.provider";
 
-class Auth {
+class GoogleAuth implements AuthProvider {
   clientId: string;
   projectId: string;
   authUri: string;
@@ -21,6 +22,7 @@ class Auth {
 
   accessToken?: string;
   refreshToken?: string;
+  accessTokenCreated?: Date;
 
   openCmds: Map<NodeJS.Platform, string> = new Map([
     ["android", "termux-open-url"],
@@ -29,10 +31,10 @@ class Auth {
     ["win32", "start"],
   ]);
 
-  readonly gPhotoAuthDir = path.resolve(__dirname, "../settings/.gphotos_auth");
-  readonly initFile = path.resolve(this.gPhotoAuthDir, "init");
-  readonly refreshTokenFile = path.resolve(this.gPhotoAuthDir, "refresh_token");
-  readonly accessTokenFile = path.resolve(this.gPhotoAuthDir, "access_token");
+  readonly gAuthDir = path.resolve(__dirname, "../settings/.gphotos_auth");
+  readonly initFile = path.resolve(this.gAuthDir, "init");
+  readonly refreshTokenFile = path.resolve(this.gAuthDir, "refresh_token");
+  readonly accessTokenFile = path.resolve(this.gAuthDir, "access_token");
 
   constructor(web: GoogleOauth2Web) {
     this.clientId = web.client_id;
@@ -52,12 +54,14 @@ class Auth {
   }
 
   private saveToken(data: tokenResponse) {
-    if (!fs.existsSync(this.gPhotoAuthDir)) {
-      fs.mkdirSync(this.gPhotoAuthDir);
+    if (!fs.existsSync(this.gAuthDir)) {
+      fs.mkdirSync(this.gAuthDir);
     }
     fs.writeFileSync(this.initFile, JSON.stringify(data, null, 2));
     this.accessToken = data.access_token;
     fs.writeFileSync(this.accessTokenFile, data.access_token);
+    const { mtime } = fs.statSync(this.accessTokenFile);
+    this.accessTokenCreated = mtime;
     if (data.refresh_token) {
       fs.writeFileSync(this.refreshTokenFile, data.refresh_token);
       this.refreshToken = data.refresh_token;
@@ -103,10 +107,11 @@ class Auth {
     });
   }
 
-  private isTokenExpired(filepath: string): boolean {
-    const { mtime } = fs.statSync(filepath);
-    const elapsed = ((Date.now() - +mtime) / 1000) | 0;
-    // logger.info(`elapsed time: ${elapsed}s`);
+  private isTokenExpired(): boolean {
+    if (!this.accessTokenCreated) {
+      return false
+    }
+    const elapsed = ((Date.now() - +this.accessTokenCreated) / 1000) | 0;
     return elapsed > 3600;
   }
 
@@ -133,7 +138,7 @@ class Auth {
 
   public async token(): Promise<string> {
     try {
-      if (this.isTokenExpired(this.accessTokenFile)) {
+      if (this.isTokenExpired()) {
         throw Error("Init a new token.");
       }
       this.accessToken = fs.readFileSync(this.accessTokenFile).toString();
@@ -144,6 +149,4 @@ class Auth {
   }
 }
 
-const auth = new Auth(config);
-
-export { auth };
+export { GoogleAuth };
