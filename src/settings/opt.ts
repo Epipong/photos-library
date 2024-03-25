@@ -23,7 +23,7 @@ Commands:\n\
 \n\
 Options:\n\
   -s, --source=PATH source location to import files\n\
-  -t, --target=PATH target location to import files\n\
+      --target=PATH target location to import files\n\
   -f, --force       force the copy of the files if they already exist\n\
       --title=ARG   title of the album\n\
   -h, --help        display this help\n\

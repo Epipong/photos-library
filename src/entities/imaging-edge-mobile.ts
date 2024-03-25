@@ -13,8 +13,8 @@ class ImagingEdgeMobile {
     ["darwin", config.targetPathMacOs],
   ]);
 
-  public sourcePath: string = "";
-  public targetPath: string = "";
+  public sourcePath: string;
+  public targetPath: string;
 
   /**
    * Imaging Edge Mobile class.

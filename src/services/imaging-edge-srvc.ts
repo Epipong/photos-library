@@ -1,7 +1,7 @@
 import { ImagingEdgeMobile } from "../entities/imaging-edge-mobile";
 import fs from "fs";
 import path from "path";
-import cliProgress from "cli-progress";
+import { singleBar as bar } from "../entities/single-bar";
 
 type extension = "JPG" | "ARW" | "MP4";
 
@@ -85,13 +85,6 @@ class ImagingEdgeSrvc {
         recursive: true,
       })
       .filter((file) => (file as string).endsWith(`.${ext}`));
-    const bar = new cliProgress.SingleBar(
-      {
-        format:
-          " {bar} | {percentage}% | {filename} | ETA: {eta}s | {value}/{total}",
-      },
-      cliProgress.Presets.shades_grey,
-    );
     bar.start(files.length, 0);
     for (const file of files as string[]) {
       const filePath = path.resolve(dir, file);
@@ -124,11 +117,16 @@ class ImagingEdgeSrvc {
    */
   public exportFiles(force: boolean = false) {
     const files = fs.readdirSync(this.iem.sourcePath, { recursive: true });
+    bar.start(files.length, 0);
     for (const file of files) {
       const sourcePath = path.resolve(this.iem.sourcePath, file as string);
       const targetPath = path.resolve(this.iem.targetPath, file as string);
-      fs.cpSync(sourcePath, targetPath, { recursive: true });
+      if (force || !fs.existsSync(targetPath)) {
+        fs.cpSync(sourcePath, targetPath, { recursive: true });
+      }
+      bar.increment({ filename: this.getFileName(file as string) });
     }
+    bar.stop();
   }
 }
 

@@ -5,7 +5,7 @@ import { Album, AlbumsResponse } from "../interfaces/albums-response";
 import fs from "fs";
 import path from "path";
 import { MediaItem } from "../interfaces/media-item";
-import cliProgress from "cli-progress";
+import { singleBar as bar } from "../entities/single-bar";
 
 class GooglePhotosLibrary {
   apiBase = "https://photoslibrary.googleapis.com";
@@ -74,13 +74,6 @@ class GooglePhotosLibrary {
       .readdirSync(source, { recursive: true })
       .filter((file) => (file as string).endsWith(".JPG"));
     const mediaItems: MediaItem[] = [];
-    const bar = new cliProgress.SingleBar(
-      {
-        format:
-          " {bar} | {percentage}% | {filename} | ETA: {eta}s | {value}/{total}",
-      },
-      cliProgress.Presets.shades_grey,
-    );
     bar.start(images.length, 0);
     for (const img of images) {
       const imgPath = path.resolve(source, img as string);
