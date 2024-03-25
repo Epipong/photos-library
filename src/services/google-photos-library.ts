@@ -1,6 +1,6 @@
 import axios, { AxiosError, Method } from "axios";
 import { logger } from "../infrastructures/logger";
-import { Album, AlbumsResponse } from "../interfaces/albums-response";
+import { Album, AlbumRequest, AlbumsResponse } from "../interfaces/albums";
 import fs from "fs";
 import path from "path";
 import { MediaItem } from "../interfaces/media-item";
@@ -13,7 +13,8 @@ class GooglePhotosLibrary implements PhotosProvider {
     private auth: AuthProvider,
   ) {}
 
-  apiBase = "https://photoslibrary.googleapis.com";
+  private readonly apiBase = "https://photoslibrary.googleapis.com";
+  private readonly chunkSize = 50;
 
   private async invoke({
     url,
@@ -50,19 +51,28 @@ class GooglePhotosLibrary implements PhotosProvider {
     }
   }
 
+  /**
+   * Get all albums.
+   * @returns a promise of an array of albums.
+   */
   public async getAlbums(): Promise<AlbumsResponse> {
     return this.invoke({ url: `${this.apiBase}/v1/albums` });
   }
 
-  public async batchCreateMediaItems({
+  /**
+   * Upload the media items per batch of 50.
+   * @param albumId album id.
+   * @param newMediaItems list of media items to upload.
+   */
+  private async batchCreateMediaItems({
     albumId,
     newMediaItems,
   }: {
     albumId: string;
     newMediaItems: MediaItem[];
   }) {
-    for (let i = 0; i < newMediaItems.length; i += 50) {
-      const items = newMediaItems.slice(i, i + 50);
+    for (let i = 0; i < newMediaItems.length; i += this.chunkSize) {
+      const items = newMediaItems.slice(i, i + this.chunkSize);
       await this.invoke({
         url: `${this.apiBase}/v1/mediaItems:batchCreate`,
         method: "POST",
@@ -74,6 +84,11 @@ class GooglePhotosLibrary implements PhotosProvider {
     }
   }
 
+  /**
+   * Upload the images file buffer.
+   * @param source source path of the images to upload.
+   * @returns the media items list.
+   */
   private async uploadMedia(source: string) {
     const images = fs
       .readdirSync(source, { recursive: true })
@@ -108,24 +123,32 @@ class GooglePhotosLibrary implements PhotosProvider {
     return mediaItems;
   }
 
-  private async createAlbum(title: string): Promise<Album> {
+  /**
+   * Create a new album photo.
+   * @param title title of the album.
+   * @returns a promise of the album.
+   */
+  private async createAlbum(album: AlbumRequest): Promise<Album> {
     return this.invoke({
       url: `${this.apiBase}/v1/albums`,
       method: "POST",
       body: {
-        album: {
-          title: title,
-        },
+        album
       },
     });
   }
 
+  /**
+   * Create or get the album by title given and upload the images to Google Photos.
+   * @param title title of the album.
+   * @param source source path of the images to upload.
+   */
   public async main({ title, source }: { title?: string; source?: string }) {
     const result = await this.getAlbums();
     if (title) {
       const album = result.albums?.find((album: Album) =>
         album.title.includes(title),
-      ) || await this.createAlbum(title);
+      ) || await this.createAlbum({ title });
       if (source) {
         const mediaItems = await this.uploadMedia(source);
         await this.batchCreateMediaItems({

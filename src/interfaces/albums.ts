@@ -12,4 +12,9 @@ interface AlbumsResponse {
   albums: Album[];
 }
 
-export { AlbumsResponse, Album };
+interface AlbumRequest extends Partial<Album> {
+  id?: string,
+  productUrl?: string;
+}
+
+export { AlbumsResponse, AlbumRequest, Album };
