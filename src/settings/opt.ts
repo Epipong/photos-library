@@ -1,8 +1,8 @@
 import Getopt from "node-getopt";
 
 const getopt = new Getopt([
-  ["s", "source=PATH", "source location to import files"],
-  ["t", "target=PATH", "target location to import files"],
+  ["s", "source=PATH", "source location"],
+  ["d", "dest=PATH", "destination location"],
   ["f", "force", "force the copy of the files if they already exist"],
   ["t", "title=ARG", "title of the album"],
   ["h", "help", "display this help"],
@@ -22,10 +22,10 @@ Commands:\n\
   albums,           get the albums collection or upload images to Google Photos\n\
 \n\
 Options:\n\
-  -s, --source=PATH source location to import files\n\
-      --target=PATH target location to import files\n\
+  -s, --source=PATH source location\n\
+  -d, --dest=PATH   destination location\n\
   -f, --force       force the copy of the files if they already exist\n\
-      --title=ARG   title of the album\n\
+  -t, --title=ARG   title of the album\n\
   -h, --help        display this help\n\
 ",
 );

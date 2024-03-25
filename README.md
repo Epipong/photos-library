@@ -53,7 +53,7 @@ Run `npm install`.
 
 ```
 Usage:
-  ts-node app.ts [COMMAND] [OPTION]
+  ts-node app.ts [COMMAND] [OPTION]...
 
 Commands:
   import,           import files
@@ -63,10 +63,10 @@ Commands:
   albums,           get the albums collection or upload images to Google Photos
 
 Options:
-  -s, --source=PATH source location to import files
-      --target=PATH target location to import files
+  -s, --source=PATH source location
+  -d, --dest=PATH   destination location
   -f, --force       force the copy of the files if they already exist
-      --title=ARG   title of the album
+  -t, --title=ARG   title of the album
   -h, --help        display this help
 ```
 
@@ -88,7 +88,7 @@ The command lines will import the media files from `/storage/0000-0000` to `/hom
             └── C0001.MP4
 
 # run the import command
-> ts-node app.ts import --source /storage/0000-0000 --target /home/user/pictures
+> ts-node app.ts import -s /storage/0000-0000 -d /home/user/pictures
 
 # display the content of the imported files
 > tree /home/user/pictures
@@ -106,7 +106,7 @@ The command lines will import the media files from `/storage/0000-0000` to `/hom
 The command line will copy the content from `/home/user/pictures` to `/mnt/e/pictures`
 ```sh
 # run the import command
-> ts-node app.ts export --source /home/user/pictures --target /mnt/e/pictures
+> ts-node app.ts export -s /home/user/pictures -d /mnt/e/pictures
 ```
 
 ## Case 3 - upload the images to Google Photos
@@ -118,7 +118,7 @@ to the album called `Summer 2024`. If the album doesn't exist, it will be create
 Enter the link? https://www.googleapis.com/auth/photoslibrary?code=XXXX-XXX&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fphotoslibrary.sharing+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fphotoslibrary+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fphotoslibrary.appendonly
 
 # upload all images to the album 'summer 2024' 
-> ts-node app.ts album --title 'Summer 2024' --source /home/user/pictures
+> ts-node app.ts album -t 'Summer 2024' -s /home/user/pictures
 ```
 
 ps: the images can be upload only from album created by this app.
