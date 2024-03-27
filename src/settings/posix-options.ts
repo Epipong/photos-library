@@ -22,11 +22,7 @@ Commands:\n\
   albums,           get the albums collection or upload images to Google Photos\n\
 \n\
 Options:\n\
-  -s, --source=PATH source location\n\
-  -d, --dest=PATH   destination location\n\
-  -f, --force       force the copy of the files if they already exist\n\
-  -t, --title=ARG   title of the album\n\
-  -h, --help        display this help\n\
+[[OPTIONS]]\n\
 ",
 );
 

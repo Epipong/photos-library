@@ -110,15 +110,15 @@ The command line will copy the content from `/home/user/pictures` to `/mnt/e/pic
 ```
 
 ## Case 3 - upload the images to Google Photos
-The command lines will init a valid token and upload all JPG images in `/home/user/pictures`
+The command lines will init a valid token and upload all JPG images from `/home/user/pictures`
 to the album called `Summer 2024`. If the album doesn't exist, it will be created.
 ```sh
 # open a link to log in, connect to your account then copy / paste the link to extract the code
 > ts-node app.ts init
-Enter the link? https://www.googleapis.com/auth/photoslibrary?code=XXXX-XXX&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fphotoslibrary.sharing+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fphotoslibrary+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fphotoslibrary.appendonly
+Paste the link after the authentication: https://www.googleapis.com/auth/photoslibrary?code=XXXX-XXX&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fphotoslibrary.sharing+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fphotoslibrary+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fphotoslibrary.appendonly
 
 # upload all images to the album 'summer 2024' 
 > ts-node app.ts album -t 'Summer 2024' -s /home/user/pictures
 ```
 
-ps: the images can be upload only from album created by this app.
+note: the images can be upload only from album created by this app.

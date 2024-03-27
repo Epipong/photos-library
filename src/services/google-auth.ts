@@ -1,9 +1,8 @@
-const { exec } = require("child_process");
+import { exec } from "child_process";
 import axios from "axios";
-import { config } from "../settings/config";
 import * as readline from "readline";
 import { logger } from "../infrastructures/logger";
-import path from "path";
+import path, { resolve } from "path";
 import fs from "fs";
 import { tokenResponse } from "../interfaces/token-response";
 import { GoogleRequestParams } from "../interfaces/google-request-params";
@@ -45,6 +44,15 @@ class GoogleAuth implements AuthProvider {
     this.clientSecret = web.client_secret;
     this.redirectUrls = web.redirect_uris;
     this.redirectUri = web.redirect_uri;
+
+    if (fs.existsSync(this.accessTokenFile)) {
+      this.initAccessTokenCreated();
+    }
+  }
+
+  private initAccessTokenCreated() {
+    const { mtime } = fs.statSync(this.accessTokenFile);
+    this.accessTokenCreated = mtime;
   }
 
   private createUrl(baseUrl: string, params: GoogleRequestParams): URL {
@@ -60,8 +68,7 @@ class GoogleAuth implements AuthProvider {
     fs.writeFileSync(this.initFile, JSON.stringify(data, null, 2));
     this.accessToken = data.access_token;
     fs.writeFileSync(this.accessTokenFile, data.access_token);
-    const { mtime } = fs.statSync(this.accessTokenFile);
-    this.accessTokenCreated = mtime;
+    this.initAccessTokenCreated();
     if (data.refresh_token) {
       fs.writeFileSync(this.refreshTokenFile, data.refresh_token);
       this.refreshToken = data.refresh_token;
@@ -70,7 +77,7 @@ class GoogleAuth implements AuthProvider {
 
   private async generateToken(code: string): Promise<tokenResponse> {
     const { data } = await axios.post(
-      config.token_uri,
+      this.tokenUri,
       new URLSearchParams({
         client_id: this.clientId,
         client_secret: this.clientSecret,
@@ -87,36 +94,39 @@ class GoogleAuth implements AuthProvider {
     return data;
   }
 
-  private readCode() {
-    const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-    });
-
-    rl.question("Enter the link? ", async (answer) => {
-      const url = new URL(answer);
-      const code = decodeURIComponent(url.searchParams.get("code")!);
-      try {
-        const data = await this.generateToken(code);
-        this.saveToken(data);
-      } catch (err) {
-        logger.error(`[readCode]: ${(err as Error).message}`);
-        logger.error(`[readCode]: ${(err as Error).stack}`);
-      }
-      rl.close();
-    });
+  private async readCode() {
+    return new Promise(() => {
+      const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+      });
+  
+      rl.question("Paste the link after the authentication: ", async (answer) => {
+        const url = new URL(answer);
+        const code = decodeURIComponent(url.searchParams.get("code")!);
+        try {
+          const data = await this.generateToken(code);
+          this.saveToken(data);
+        } catch (err) {
+          logger.error(`[readCode]: ${(err as Error).message}`);
+          logger.error(`[readCode]: ${(err as Error).stack}`);
+        } finally {
+          rl.close();
+        }
+      });
+    })
   }
 
   private isTokenExpired(): boolean {
     if (!this.accessTokenCreated) {
-      return false
+      return true;
     }
     const elapsed = ((Date.now() - +this.accessTokenCreated) / 1000) | 0;
     return elapsed > 3600;
   }
 
   private openAuthLink() {
-    const url = this.createUrl(config.auth_uri, {
+    const url = this.createUrl(this.authUri, {
       client_id: this.clientId,
       redirect_uri: this.redirectUri,
       scope: this.redirectUrls.join(" "),
@@ -128,18 +138,17 @@ class GoogleAuth implements AuthProvider {
 
   public async refresh() {
     this.openAuthLink();
-    this.readCode();
+    await this.readCode();
   }
 
   public async init() {
-    this.openAuthLink();
-    this.readCode();
+    this.refresh();
   }
 
   public async token(): Promise<string> {
     try {
       if (this.isTokenExpired()) {
-        throw Error("Init a new token.");
+        this.refresh();
       }
       this.accessToken = fs.readFileSync(this.accessTokenFile).toString();
       return this.accessToken;
