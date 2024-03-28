@@ -1,7 +1,6 @@
 import path from "path";
 import { AuthProvider } from "../interfaces/auth.provider";
 import { AwsConfig } from "../interfaces/aws-config";
-import { S3Client } from "@aws-sdk/client-s3";
 import { logger } from "../infrastructures/logger";
 import axios, { AxiosError } from "axios";
 import { AwsCodePairResponse } from "../interfaces/aws-codepair-response";
@@ -30,6 +29,8 @@ class AwsAuth implements AuthProvider {
 
   public async init(): Promise<void> {
     const codePair = await this.getCodePair();
+    logger.info(`[user_code]: ${codePair?.user_code}`)
+    logger.info(`[device_code]: ${codePair?.device_code}`)
     logger.info(`Visit the link to log in Amazon: ${codePair?.verification_uri}`);
     return;
   }

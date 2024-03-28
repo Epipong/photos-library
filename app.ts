@@ -6,11 +6,10 @@ import { ImagingEdgeSrvc } from "./src/services/imaging-edge-srvc";
 import Getopt from "node-getopt";
 import { PhotosProvider } from "./src/interfaces/photos.provider";
 import { AuthProvider } from "./src/interfaces/auth.provider";
-import { GoogleAuth } from "./src/services/google-auth";
-import { config } from "./src/settings/config";
+import { AuthFactory } from "./src/services/auth-factory";
 
 const main = async () => {
-  const auth: AuthProvider = new GoogleAuth(config.web);
+  const auth: AuthProvider = AuthFactory.createAuthProvider(opt.options);
   const iem = new ImagingEdgeMobile(opt.options);
   const manager = new ImagingEdgeSrvc(iem);
   const photos: PhotosProvider = new GooglePhotosLibrary(auth);
@@ -26,7 +25,8 @@ const main = async () => {
     help: () => getopt.showHelp(),
   };
 
-  commands[cmd in commands ? cmd : "help"]();
+  // commands[cmd in commands ? cmd : "help"]();
+  auth.init();
 };
 
 main();

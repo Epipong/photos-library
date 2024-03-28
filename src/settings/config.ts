@@ -1,7 +1,9 @@
-import * as oauth2 from "./google.config.json";
+import * as googleCfg from "./google.config.json";
+import * as awsCfg from "./aws.config.json"
 
 const config = {
-  ...oauth2,
+  ...googleCfg,
+  ...awsCfg,
   sourcePathAndroid: process.env.SOURCE_PATH_ANDROID || "",
   targetPathAndroid: process.env.TARGET_PATH_ANDROID || "",
   sourcePathLinux: process.env.SOURCE_PATH_LINUX || "",
