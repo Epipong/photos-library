@@ -1,7 +1,7 @@
-import * as oauth2 from "./oauth2.keys.json";
+import * as oauth2 from "./google.config.json";
 
 const config = {
-  ...oauth2.web,
+  ...oauth2,
   sourcePathAndroid: process.env.SOURCE_PATH_ANDROID || "",
   targetPathAndroid: process.env.TARGET_PATH_ANDROID || "",
   sourcePathLinux: process.env.SOURCE_PATH_LINUX || "",

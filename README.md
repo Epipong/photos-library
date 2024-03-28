@@ -21,7 +21,7 @@ Set up your file `oauth2.key.json` in `./src/settings/` to use **Google Photos A
         └── oauth2.key.json
 ```
 
-Inside the file oauth2.keys.json, set up the following fields:
+Inside the file google.config.json, set up the following fields:
 
 - client_id
 - client_secret
@@ -58,16 +58,17 @@ Usage:
 Commands:
   import,           import files
   export,           export files
-  init,             log in for Google Photos API
-  token,            get the token for Google Photos API
-  albums,           get the albums collection or upload images to Google Photos
+  init,             log in for the Cloud Photos API
+  token,            get the token for the Cloud Photos API
+  albums,           get the albums collection or upload images to the Cloud Photos
 
 Options:
-  -s, --source=PATH source location
-  -d, --dest=PATH   destination location
-  -f, --force       force the copy of the files if they already exist
-  -t, --title=ARG   title of the album
-  -h, --help        display this help
+  -s, --source=PATH  source location
+  -d, --dest=PATH    destination location
+  -f, --force        force the copy of the files if they already exist
+  -t, --title=ARG    title of the album
+  -p, --provider=ARG chose the provider: Google Photos or Amazon Photos
+  -h, --help         display this help
 ```
 
 ## Usage

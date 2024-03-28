@@ -5,7 +5,7 @@ import { GoogleAuth } from "./google-auth";
 describe("auth", () => {
   describe("init", () => {
     it("should be true", () => {
-      const auth: AuthProvider = new GoogleAuth(config);
+      const auth: AuthProvider = new GoogleAuth(config.web);
       expect(auth).toBeTruthy();
     });
   });

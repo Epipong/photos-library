@@ -1,4 +1,4 @@
-interface GoogleOauth2Web {
+interface GoogleConfig {
   client_id: string;
   project_id: string;
   auth_uri: string;
@@ -9,4 +9,4 @@ interface GoogleOauth2Web {
   redirect_uri: string;
 }
 
-export { GoogleOauth2Web };
+export { GoogleConfig };

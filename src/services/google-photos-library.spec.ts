@@ -3,9 +3,8 @@ import { AuthProvider } from "../interfaces/auth.provider";
 import { config } from "../settings/config";
 import { GoogleAuth } from "./google-auth";
 import { GooglePhotosLibrary } from "./google-photos-library";
-import { Album } from "../interfaces/albums";
 
-const auth: AuthProvider = new GoogleAuth(config);
+const auth: AuthProvider = new GoogleAuth(config.web);
 const photos = new GooglePhotosLibrary(auth);
 
 describe("GooglePhotosLibrary", () => {

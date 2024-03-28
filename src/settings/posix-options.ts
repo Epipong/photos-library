@@ -5,6 +5,7 @@ const getopt = new Getopt([
   ["d", "dest=PATH", "destination location"],
   ["f", "force", "force the copy of the files if they already exist"],
   ["t", "title=ARG", "title of the album"],
+  ["p", "provider=ARG", "chose the provider: Google Photos or Amazon Photos"],
   ["h", "help", "display this help"],
 ]).bindHelp();
 
@@ -17,9 +18,9 @@ getopt.setHelp(
 Commands:\n\
   import,           import files\n\
   export,           export files\n\
-  init,             log in for Google Photos API\n\
-  token,            get the token for Google Photos API\n\
-  albums,           get the albums collection or upload images to Google Photos\n\
+  init,             log in for the Cloud Photos API\n\
+  token,            get the token for the Cloud Photos API\n\
+  albums,           get the albums collection or upload images to the Cloud Photos\n\
 \n\
 Options:\n\
 [[OPTIONS]]\n\

@@ -10,10 +10,10 @@ describe("Imaging Edge Mobile", () => {
       ...originalEnv,
       SOURCE_PATH_LINUX: "/mnt/e",
       SOURCE_PATH_ANDROID: "/storage/0000-0000",
-      SOURCE_PATH_MACOS: "/Volumes",
+      SOURCE_PATH_MACOS: "/Users/john/Pictures",
       TARGET_PATH_LINUX: "/home/user/Pictures/Sony",
       TARGET_PATH_ANDROID: "/home/user/storage/pictures/sony",
-      TARGET_PATH_MACOS: "/Volumes/Pictures",
+      TARGET_PATH_MACOS: "/Volumes/Untitled/Pictures",
     };
   });
 
@@ -50,8 +50,8 @@ describe("Imaging Edge Mobile", () => {
       platform: "darwin"
     });
 
-    expect(iem.sourcePath).toEqual("/Volumes");
-    expect(iem.targetPath).toContain("/Volumes/Pictures");
+    expect(iem.sourcePath).toEqual("/Users/john/Pictures");
+    expect(iem.targetPath).toEqual("/Volumes/Untitled/Pictures");
   });
 
   it("should init the right source", () => {

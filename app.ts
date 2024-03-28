@@ -10,7 +10,7 @@ import { GoogleAuth } from "./src/services/google-auth";
 import { config } from "./src/settings/config";
 
 const main = async () => {
-  const auth: AuthProvider = new GoogleAuth(config);
+  const auth: AuthProvider = new GoogleAuth(config.web);
   const iem = new ImagingEdgeMobile(opt.options);
   const manager = new ImagingEdgeSrvc(iem);
   const photos: PhotosProvider = new GooglePhotosLibrary(auth);

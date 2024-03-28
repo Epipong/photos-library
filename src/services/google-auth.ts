@@ -6,7 +6,7 @@ import path, { resolve } from "path";
 import fs from "fs";
 import { tokenResponse } from "../interfaces/token-response";
 import { GoogleRequestParams } from "../interfaces/google-request-params";
-import { GoogleOauth2Web } from "../interfaces/google-oauth2-web";
+import { GoogleConfig } from "../interfaces/google-config-web";
 import { AuthProvider } from "../interfaces/auth.provider";
 
 class GoogleAuth implements AuthProvider {
@@ -35,7 +35,7 @@ class GoogleAuth implements AuthProvider {
   readonly refreshTokenFile = path.resolve(this.gAuthDir, "refresh_token");
   readonly accessTokenFile = path.resolve(this.gAuthDir, "access_token");
 
-  constructor(web: GoogleOauth2Web) {
+  constructor(web: GoogleConfig) {
     this.clientId = web.client_id;
     this.projectId = web.project_id;
     this.authUri = web.auth_uri;

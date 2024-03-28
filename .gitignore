@@ -133,5 +133,5 @@ dist
 src/test
 
 # settings
-src/settings/oauth2.keys.json
+src/settings/*.config.json
 src/settings/.gphotos_auth
