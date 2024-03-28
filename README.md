@@ -12,6 +12,7 @@ Application to manage the media files for Sony Alpha cameras.
 ## Requirements
 
 ### Configuration - Google Photos API
+
 Set up your file `oauth2.key.json` in `./src/settings/` to use **Google Photos API**.
 
 ```sh
@@ -47,6 +48,7 @@ Inside the file google.config.json, set up the following fields:
 ```
 
 ## Installation
+
 Run `npm install`.
 
 ## Help
@@ -74,7 +76,9 @@ Options:
 ## Usage
 
 ### Case 1 - import media files from SD Card
+
 The command lines will import the media files from `/storage/0000-0000` to `/home/user/pictures`
+
 ```sh
 # display the content of the SD Card directory
 > tree /storage/0000-0000
@@ -104,21 +108,25 @@ The command lines will import the media files from `/storage/0000-0000` to `/hom
 ```
 
 ## Case 2 - export to external storage
+
 The command line will copy the content from `/home/user/pictures` to `/mnt/e/pictures`
+
 ```sh
 # run the import command
 > ts-node app.ts export -s /home/user/pictures -d /mnt/e/pictures
 ```
 
 ## Case 3 - upload the images to Google Photos
+
 The command lines will init a valid token and upload all JPG images from `/home/user/pictures`
 to the album called `Summer 2024`. If the album doesn't exist, it will be created.
+
 ```sh
 # open a link to log in, connect to your account then copy / paste the link to extract the code
 > ts-node app.ts init
 Paste the link after the authentication: https://www.googleapis.com/auth/photoslibrary?code=XXXX-XXX&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fphotoslibrary.sharing+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fphotoslibrary+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fphotoslibrary.appendonly
 
-# upload all images to the album 'summer 2024' 
+# upload all images to the album 'summer 2024'
 > ts-node app.ts album -t 'Summer 2024' -s /home/user/pictures
 ```
 

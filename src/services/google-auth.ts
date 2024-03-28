@@ -100,21 +100,24 @@ class GoogleAuth implements AuthProvider {
         input: process.stdin,
         output: process.stdout,
       });
-  
-      rl.question("Paste the link after the authentication: ", async (answer) => {
-        const url = new URL(answer);
-        const code = decodeURIComponent(url.searchParams.get("code")!);
-        try {
-          const data = await this.generateToken(code);
-          this.saveToken(data);
-        } catch (err) {
-          logger.error(`[readCode]: ${(err as Error).message}`);
-          logger.error(`[readCode]: ${(err as Error).stack}`);
-        } finally {
-          rl.close();
-        }
-      });
-    })
+
+      rl.question(
+        "Paste the link after the authentication: ",
+        async (answer) => {
+          const url = new URL(answer);
+          const code = decodeURIComponent(url.searchParams.get("code")!);
+          try {
+            const data = await this.generateToken(code);
+            this.saveToken(data);
+          } catch (err) {
+            logger.error(`[readCode]: ${(err as Error).message}`);
+            logger.error(`[readCode]: ${(err as Error).stack}`);
+          } finally {
+            rl.close();
+          }
+        },
+      );
+    });
   }
 
   private isTokenExpired(): boolean {

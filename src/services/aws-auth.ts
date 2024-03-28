@@ -7,18 +7,20 @@ import { AwsCodePairResponse } from "../interfaces/aws-codepair-response";
 
 class AwsAuth implements AuthProvider {
   readonly awsAuthDir = path.resolve(__dirname, "../settings/.awsphotos_auth");
-  readonly apiUrl = 'https://api.amazon.com';
+  readonly apiUrl = "https://api.amazon.com";
 
-  constructor(private config: AwsConfig) {
-  }
+  constructor(private config: AwsConfig) {}
 
   private async getCodePair(): Promise<AwsCodePairResponse | undefined> {
     try {
-      const { data } = await axios.post(`${this.apiUrl}/auth/o2/create/codepair`, {
-        response_type: "device_code",
-        client_id: this.config.clientId,
-        scope: "profile"
-      });
+      const { data } = await axios.post(
+        `${this.apiUrl}/auth/o2/create/codepair`,
+        {
+          response_type: "device_code",
+          client_id: this.config.clientId,
+          scope: "profile",
+        },
+      );
       return data;
     } catch (err) {
       logger.error(`[getCodePair] message: ${(err as AxiosError).message}`);
@@ -29,9 +31,11 @@ class AwsAuth implements AuthProvider {
 
   public async init(): Promise<void> {
     const codePair = await this.getCodePair();
-    logger.info(`[user_code]: ${codePair?.user_code}`)
-    logger.info(`[device_code]: ${codePair?.device_code}`)
-    logger.info(`Visit the link to log in Amazon: ${codePair?.verification_uri}`);
+    logger.info(`[user_code]: ${codePair?.user_code}`);
+    logger.info(`[device_code]: ${codePair?.device_code}`);
+    logger.info(
+      `Visit the link to log in Amazon: ${codePair?.verification_uri}`,
+    );
     return;
   }
 
@@ -41,9 +45,9 @@ class AwsAuth implements AuthProvider {
 
   public async token(): Promise<string> {
     const listParams = {
-      Bucket: '',
-      Prefix: 'albums/'
-    }
+      Bucket: "",
+      Prefix: "albums/",
+    };
     return "";
   }
 }

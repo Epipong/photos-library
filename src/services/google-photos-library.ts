@@ -9,9 +9,7 @@ import { PhotosProvider } from "../interfaces/photos.provider";
 import { AuthProvider } from "../interfaces/auth.provider";
 
 class GooglePhotosLibrary implements PhotosProvider {
-  constructor(
-    private auth: AuthProvider,
-  ) {}
+  constructor(private auth: AuthProvider) {}
 
   private readonly apiBase = "https://photoslibrary.googleapis.com";
   private readonly chunkSize = 50;
@@ -71,7 +69,7 @@ class GooglePhotosLibrary implements PhotosProvider {
     albumId: string;
     newMediaItems: MediaItem[];
   }) {
-    bar.start((newMediaItems.length / 50 | 0) + 1, 0);
+    bar.start(((newMediaItems.length / 50) | 0) + 1, 0);
     for (let i = 0; i < newMediaItems.length; i += this.chunkSize) {
       const items = newMediaItems.slice(i, i + this.chunkSize);
       await this.invoke({
@@ -84,7 +82,7 @@ class GooglePhotosLibrary implements PhotosProvider {
       });
       bar.increment({ filename: albumId });
     }
-    bar.stop()
+    bar.stop();
   }
 
   /**
@@ -111,7 +109,7 @@ class GooglePhotosLibrary implements PhotosProvider {
         },
         body: fileData,
       });
-      const filename = (img as string).split("/").pop()!
+      const filename = (img as string).split("/").pop()!;
       const item: MediaItem = {
         description: "",
         simpleMediaItem: {
@@ -136,7 +134,7 @@ class GooglePhotosLibrary implements PhotosProvider {
       url: `${this.apiBase}/v1/albums`,
       method: "POST",
       body: {
-        album
+        album,
       },
     });
   }
@@ -149,9 +147,9 @@ class GooglePhotosLibrary implements PhotosProvider {
   public async main({ title, source }: { title?: string; source?: string }) {
     const result = await this.getAlbums();
     if (title) {
-      const album = result.albums?.find((album: Album) =>
-        album.title.includes(title),
-      ) || await this.createAlbum({ title });
+      const album =
+        result.albums?.find((album: Album) => album.title.includes(title)) ||
+        (await this.createAlbum({ title }));
       if (source) {
         const mediaItems = await this.uploadMedia(source);
         await this.batchCreateMediaItems({

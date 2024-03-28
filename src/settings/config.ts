@@ -1,5 +1,5 @@
 import * as googleCfg from "./google.config.json";
-import * as awsCfg from "./aws.config.json"
+import * as awsCfg from "./aws.config.json";
 
 const config = {
   ...googleCfg,
@@ -10,6 +10,6 @@ const config = {
   targetPathLinux: process.env.TARGET_PATH_LINUX || "",
   sourcePathMacOs: process.env.SOURCE_PATH_MACOS || "",
   targetPathMacOs: process.env.TARGET_PATH_MACOS || "",
-}
+};
 
 export { config };

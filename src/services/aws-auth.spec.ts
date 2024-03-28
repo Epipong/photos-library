@@ -2,7 +2,7 @@ import { AuthProvider } from "../interfaces/auth.provider";
 import { AwsAuth } from "./aws-auth";
 import config from "../settings/aws.config.json";
 
-const auth: AuthProvider = new AwsAuth(config);
+const auth: AuthProvider = new AwsAuth(config.aws);
 
 describe("AwsAuth", () => {
   describe("token", () => {

@@ -25,7 +25,7 @@ describe("Imaging Edge Mobile", () => {
     const iem = new ImagingEdgeMobile({
       source: process.env.SOURCE_PATH_LINUX,
       target: process.env.TARGET_PATH_LINUX,
-      platform: "linux"
+      platform: "linux",
     });
 
     expect(iem.sourcePath).toEqual("/mnt/e");
@@ -36,7 +36,7 @@ describe("Imaging Edge Mobile", () => {
     const iem = new ImagingEdgeMobile({
       source: process.env.SOURCE_PATH_ANDROID,
       target: process.env.TARGET_PATH_ANDROID,
-      platform: "android"
+      platform: "android",
     });
 
     expect(iem.sourcePath).toEqual("/storage/0000-0000");
@@ -47,7 +47,7 @@ describe("Imaging Edge Mobile", () => {
     const iem = new ImagingEdgeMobile({
       source: process.env.SOURCE_PATH_MACOS,
       target: process.env.TARGET_PATH_MACOS,
-      platform: "darwin"
+      platform: "darwin",
     });
 
     expect(iem.sourcePath).toEqual("/Users/john/Pictures");

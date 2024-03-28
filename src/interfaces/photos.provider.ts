@@ -1,5 +1,11 @@
 interface PhotosProvider {
-  main: ({ title, source }: { title?: string, source?: string }) => Promise<void>
+  main: ({
+    title,
+    source,
+  }: {
+    title?: string;
+    source?: string;
+  }) => Promise<void>;
 }
 
-export { PhotosProvider }
+export { PhotosProvider };

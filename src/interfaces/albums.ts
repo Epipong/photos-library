@@ -13,7 +13,7 @@ interface AlbumsResponse {
 }
 
 interface AlbumRequest extends Partial<Album> {
-  id?: string,
+  id?: string;
   productUrl?: string;
 }
 

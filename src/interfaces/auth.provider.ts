@@ -4,4 +4,4 @@ interface AuthProvider {
   token: () => Promise<string>;
 }
 
-export { AuthProvider }
+export { AuthProvider };
