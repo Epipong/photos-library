@@ -1,4 +1,4 @@
-interface tokenResponse {
+interface GoogleTokenResponse {
   access_token: string;
   refresh_token: string;
   expires_in: number;
@@ -6,4 +6,4 @@ interface tokenResponse {
   token_type: string;
 }
 
-export { tokenResponse };
+export { GoogleTokenResponse };

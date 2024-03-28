@@ -25,8 +25,7 @@ const main = async () => {
     help: () => getopt.showHelp(),
   };
 
-  // commands[cmd in commands ? cmd : "help"]();
-  auth.init();
+  commands[cmd in commands ? cmd : "help"]();
 };
 
 main();

@@ -4,7 +4,7 @@ import * as readline from "readline";
 import { logger } from "../infrastructures/logger";
 import path, { resolve } from "path";
 import fs from "fs";
-import { tokenResponse } from "../interfaces/token-response";
+import { GoogleTokenResponse } from "../interfaces/google-token-response";
 import { GoogleRequestParams } from "../interfaces/google-request-params";
 import { GoogleConfig } from "../interfaces/google-config-web";
 import { AuthProvider } from "../interfaces/auth.provider";
@@ -46,11 +46,11 @@ class GoogleAuth implements AuthProvider {
     this.redirectUri = web.redirect_uri;
 
     if (fs.existsSync(this.accessTokenFile)) {
-      this.initAccessTokenCreated();
+      this.setAccessTokenCreated();
     }
   }
 
-  private initAccessTokenCreated() {
+  private setAccessTokenCreated() {
     const { mtime } = fs.statSync(this.accessTokenFile);
     this.accessTokenCreated = mtime;
   }
@@ -61,21 +61,21 @@ class GoogleAuth implements AuthProvider {
     return url;
   }
 
-  private saveToken(data: tokenResponse) {
+  private saveToken(data: GoogleTokenResponse) {
     if (!fs.existsSync(this.gAuthDir)) {
       fs.mkdirSync(this.gAuthDir);
     }
     fs.writeFileSync(this.initFile, JSON.stringify(data, null, 2));
     this.accessToken = data.access_token;
     fs.writeFileSync(this.accessTokenFile, data.access_token);
-    this.initAccessTokenCreated();
+    this.setAccessTokenCreated();
     if (data.refresh_token) {
       fs.writeFileSync(this.refreshTokenFile, data.refresh_token);
       this.refreshToken = data.refresh_token;
     }
   }
 
-  private async generateToken(code: string): Promise<tokenResponse> {
+  private async generateToken(code: string): Promise<GoogleTokenResponse> {
     const { data } = await axios.post(
       this.tokenUri,
       new URLSearchParams({
