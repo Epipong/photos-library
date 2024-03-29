@@ -9,13 +9,9 @@ import { exec } from "child_process";
 import { Auth } from "./auth";
 
 class AmazonAuth extends Auth implements AuthProvider {
-  readonly awsAuthDir = path.resolve(__dirname, "../settings/.awsphotos_auth");
-  readonly initFile = path.resolve(this.awsAuthDir, "init");
-  readonly accessTokenFile = path.resolve(this.awsAuthDir, "access_token");
-  readonly refreshTokenFile = path.resolve(this.awsAuthDir, "refresh_token");
 
-  constructor(aws: AmazonConfig) {
-    super(aws);
+  constructor(cfg: AmazonConfig) {
+    super(cfg);
   }
 
   private async getCodePair(): Promise<AmazonCodePairResponse> {

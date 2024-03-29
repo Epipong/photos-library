@@ -1,10 +1,10 @@
 import * as googleCfg from "./google.config.json";
-import * as awsCfg from "./aws.config.json";
+import * as amazonCfg from "./amazon.config.json";
 
 const config = {
   providerDefault: "google",
   ...googleCfg,
-  ...awsCfg,
+  ...amazonCfg,
   sourcePathAndroid: process.env.SOURCE_PATH_ANDROID || "",
   targetPathAndroid: process.env.TARGET_PATH_ANDROID || "",
   sourcePathLinux: process.env.SOURCE_PATH_LINUX || "",

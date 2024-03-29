@@ -135,4 +135,4 @@ src/test
 # settings
 src/settings/*.config.json
 src/settings/.gphotos_auth
-src/settings/.awsphotos_auth
+src/settings/.aphotos_auth

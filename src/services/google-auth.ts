@@ -11,12 +11,12 @@ class GoogleAuth extends Auth {
   redirectUrls: string[];
   redirectUri: string;
 
-  constructor(web: GoogleConfig) {
-    super(web);
-    this.projectId = web.project_id;
-    this.authProviderUrl = web.auth_provider_x509_cert_url;
-    this.redirectUrls = web.redirect_uris;
-    this.redirectUri = web.redirect_uri;
+  constructor(cfg: GoogleConfig) {
+    super(cfg);
+    this.projectId = cfg.project_id;
+    this.authProviderUrl = cfg.auth_provider_x509_cert_url;
+    this.redirectUrls = cfg.redirect_uris;
+    this.redirectUri = cfg.redirect_uri;
   }
 
   private createUrl(baseUrl: string, params: GoogleRequestParams): URL {

@@ -5,7 +5,7 @@ import { GoogleAuth } from "./google-auth";
 
 const providers: { [provider: string]: () => AuthProvider } = {
   google: () => new GoogleAuth(config.web),
-  amazon: () => new AmazonAuth(config.aws),
+  amazon: () => new AmazonAuth(config.amz),
 };
 
 class AuthFactory {
