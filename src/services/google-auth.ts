@@ -2,8 +2,6 @@ import { exec } from "child_process";
 import axios from "axios";
 import * as readline from "readline";
 import { logger } from "../infrastructures/logger";
-import path from "path";
-import fs from "fs";
 import { GoogleTokenResponse } from "../interfaces/google-token-response";
 import { GoogleRequestParams } from "../interfaces/google-request-params";
 import { GoogleConfig } from "../interfaces/google-config";

@@ -2,6 +2,8 @@ import { AuthConfig } from "../interfaces/auth-config";
 import path from "path";
 import fs from "fs";
 import { AuthProvider } from "../interfaces/auth.provider";
+import { logger } from "../infrastructures/logger";
+import axios, { AxiosError, Method } from "axios";
 
 abstract class Auth implements AuthProvider {
   protected clientId: string;
@@ -21,6 +23,10 @@ abstract class Auth implements AuthProvider {
 
     if (fs.existsSync(this.accessTokenFile)) {
       this.setAccessTokenCreated();
+      this.accessToken = fs.readFileSync(this.accessTokenFile).toString();
+    }
+    if (fs.existsSync(this.refreshTokenFile)) {
+      this.refreshToken = fs.readFileSync(this.refreshTokenFile).toString();
     }
   }
 
@@ -39,6 +45,40 @@ abstract class Auth implements AuthProvider {
     ["darwin", "open"],
     ["win32", "start"],
   ]);
+
+  protected async invoke<T>({
+    url,
+    method = "GET",
+    body,
+    params,
+    contentType = "application/json",
+    headers,
+  }: {
+    url: string;
+    method?: Method;
+    body?: any;
+    params?: any;
+    contentType?: string;
+    headers?: any;
+  }): Promise<T> {
+    try {
+      const { data } = await axios({
+        url,
+        method,
+        headers: {
+          "Content-Type": contentType,
+          ...headers,
+        },
+        data: body,
+        params,
+      });
+      return data;
+    } catch (err) {
+      logger.error(`[invoke]: ${(err as AxiosError).message}`);
+      logger.error(`[invoke]: ${(err as AxiosError).stack}`);
+      throw new Error();
+    }
+  }
 
   protected setAccessTokenCreated() {
     const { mtime } = fs.statSync(this.accessTokenFile);
@@ -78,7 +118,7 @@ abstract class Auth implements AuthProvider {
       this.accessToken = fs.readFileSync(this.accessTokenFile).toString();
       return this.accessToken;
     } catch {
-      throw Error("Unknown context. Try initing first.");
+      throw Error("Unknown context. Try to init first.");
     }
   }
 }

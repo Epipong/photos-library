@@ -2,6 +2,7 @@ import * as googleCfg from "./google.config.json";
 import * as awsCfg from "./aws.config.json";
 
 const config = {
+  providerDefault: "google",
   ...googleCfg,
   ...awsCfg,
   sourcePathAndroid: process.env.SOURCE_PATH_ANDROID || "",
