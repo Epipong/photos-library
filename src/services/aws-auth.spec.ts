@@ -8,7 +8,7 @@ describe("AwsAuth", () => {
   describe("token", () => {
     it("should do something...", async () => {
       const token = await auth.token();
-      expect(token.length).toEqual(0);
+      expect(token.length).toBeGreaterThan(0);
     });
   });
 });

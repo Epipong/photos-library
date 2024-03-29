@@ -30,8 +30,8 @@ class AwsAuth implements AuthProvider {
   readonly apiUrl = "https://api.amazon.com";
 
   constructor(private config: AwsConfig) {
-    this.clientId = config.clientId;
-    this.clientSecret = config.clientSecret;
+    this.clientId = config.client_id;
+    this.clientSecret = config.client_secret;
 
     if (fs.existsSync(this.accessTokenFile)) {
       this.setAccessTokenCreated();
@@ -54,7 +54,7 @@ class AwsAuth implements AuthProvider {
       `${this.apiUrl}/auth/o2/create/codepair`,
       {
         response_type: "device_code",
-        client_id: this.config.clientId,
+        client_id: this.clientId,
         scope: "profile",
       },
     );
