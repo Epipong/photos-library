@@ -1,7 +1,5 @@
 import { exec } from "child_process";
-import axios from "axios";
 import * as readline from "readline";
-import { logger } from "../infrastructures/logger";
 import { GoogleTokenResponse } from "../interfaces/google-token-response";
 import { GoogleRequestParams } from "../interfaces/google-request-params";
 import { GoogleConfig } from "../interfaces/google-config";
@@ -27,23 +25,18 @@ class GoogleAuth extends Auth {
     return url;
   }
 
-  private async generateToken(code: string): Promise<GoogleTokenResponse> {
-    const { data } = await axios.post(
-      this.tokenUri,
-      new URLSearchParams({
+  private async getToken(code: string): Promise<GoogleTokenResponse> {
+    return this.invoke({
+      url: this.tokenUri,
+      method: "POST",
+      body: {
         client_id: this.clientId,
         client_secret: this.clientSecret,
         code,
         grant_type: "authorization_code",
         redirect_uri: this.redirectUri,
-      }),
-      {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
       },
-    );
-    return data;
+    });
   }
 
   private async readCode() {
@@ -58,15 +51,9 @@ class GoogleAuth extends Auth {
         async (answer) => {
           const url = new URL(answer);
           const code = decodeURIComponent(url.searchParams.get("code")!);
-          try {
-            const data = await this.generateToken(code);
-            this.saveToken(data);
-          } catch (err) {
-            logger.error(`[readCode]: ${(err as Error).message}`);
-            logger.error(`[readCode]: ${(err as Error).stack}`);
-          } finally {
-            rl.close();
-          }
+          const data = await this.getToken(code);
+          this.saveToken(data);
+          rl.close();
         },
       );
     });

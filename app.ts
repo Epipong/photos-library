@@ -7,12 +7,16 @@ import Getopt from "node-getopt";
 import { PhotosProvider } from "./src/interfaces/photos.provider";
 import { AuthProvider } from "./src/interfaces/auth.provider";
 import { AuthFactory } from "./src/services/auth-factory";
+import { PhotosFactory } from "./src/services/photos-factory";
 
 const main = async () => {
   const auth: AuthProvider = AuthFactory.createAuthProvider(opt.options);
   const iem = new ImagingEdgeMobile(opt.options);
   const manager = new ImagingEdgeSrvc(iem);
-  const photos: PhotosProvider = new GooglePhotosLibrary(auth);
+  const photos: PhotosProvider = PhotosFactory.createPhotosProvider({
+    ...opt.options,
+    auth,
+  });
   const cmd: string = process.argv[2];
   const commands: {
     [cmd: string]: () => void | Promise<void> | Promise<string> | Getopt;
