@@ -1,4 +1,4 @@
-interface AwsCodePairResponse {
+interface AmazonCodePairResponse {
   user_code: string;
   device_code: string;
   interval: number;
@@ -6,4 +6,4 @@ interface AwsCodePairResponse {
   expires_in: number;
 }
 
-export { AwsCodePairResponse };
+export { AmazonCodePairResponse };

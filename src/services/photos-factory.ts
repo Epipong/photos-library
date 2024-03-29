@@ -1,14 +1,14 @@
 import { AuthProvider } from "../interfaces/auth.provider";
 import { PhotosProvider } from "../interfaces/photos.provider";
 import { config } from "../settings/config";
-import { AwsPhotosLibrary } from "./aws-photos-library";
-import { GooglePhotosLibrary } from "./google-photos-library";
+import { AmazonPhotos } from "./amazon-photos";
+import { GooglePhotos } from "./google-photos";
 
 const providers: {
   [provider: string]: (auth: AuthProvider) => PhotosProvider;
 } = {
-  google: (auth) => new GooglePhotosLibrary(auth),
-  amazon: (auth) => new AwsPhotosLibrary(auth),
+  google: (auth) => new GooglePhotos(auth),
+  amazon: (auth) => new AmazonPhotos(auth),
 };
 
 class PhotosFactory {

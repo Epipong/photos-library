@@ -2,18 +2,15 @@ import Sinon from "sinon";
 import { AuthProvider } from "../interfaces/auth.provider";
 import { config } from "../settings/config";
 import { GoogleAuth } from "./google-auth";
-import { GooglePhotosLibrary } from "./google-photos-library";
+import { GooglePhotos } from "./google-photos";
 
 const auth: AuthProvider = new GoogleAuth(config.web);
-const photos = new GooglePhotosLibrary(auth);
+const photos = new GooglePhotos(auth);
 
-describe("GooglePhotosLibrary", () => {
+describe("GooglePhotos", () => {
   beforeAll(() => {
     const sandbox = Sinon.createSandbox();
-    const stubGetAlbums = sandbox.stub(
-      GooglePhotosLibrary.prototype,
-      "getAlbums",
-    );
+    const stubGetAlbums = sandbox.stub(GooglePhotos.prototype, "getAlbums");
     stubGetAlbums.resolves({
       albums: [
         { id: "1", productUrl: "", title: "Title 1" },
@@ -21,7 +18,7 @@ describe("GooglePhotosLibrary", () => {
       ],
     });
     const stubCreateAlbum = sandbox.stub(
-      GooglePhotosLibrary.prototype,
+      GooglePhotos.prototype,
       <any>"createAlbum",
     );
     stubCreateAlbum.resolves({

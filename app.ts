@@ -1,7 +1,7 @@
 #!/usr/bin/env ts-node
 import { ImagingEdgeMobile } from "./src/entities/imaging-edge-mobile";
 import { getopt, opt } from "./src/settings/posix-options";
-import { GooglePhotosLibrary } from "./src/services/google-photos-library";
+import { GooglePhotos } from "./src/services/google-photos";
 import { ImagingEdgeSrvc } from "./src/services/imaging-edge-srvc";
 import Getopt from "node-getopt";
 import { PhotosProvider } from "./src/interfaces/photos.provider";

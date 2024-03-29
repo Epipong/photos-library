@@ -8,7 +8,7 @@ import { singleBar as bar } from "../entities/single-bar";
 import { PhotosProvider } from "../interfaces/photos.provider";
 import { AuthProvider } from "../interfaces/auth.provider";
 
-class GooglePhotosLibrary implements PhotosProvider {
+class GooglePhotos implements PhotosProvider {
   constructor(private auth: AuthProvider) {}
 
   private readonly apiBase = "https://photoslibrary.googleapis.com";
@@ -161,4 +161,4 @@ class GooglePhotosLibrary implements PhotosProvider {
   }
 }
 
-export { GooglePhotosLibrary };
+export { GooglePhotos };

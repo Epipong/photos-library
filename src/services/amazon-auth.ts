@@ -1,25 +1,25 @@
 import path from "path";
 import { AuthProvider } from "../interfaces/auth.provider";
-import { AwsConfig } from "../interfaces/aws-config";
+import { AmazonConfig } from "../interfaces/amazon-config";
 import { logger } from "../infrastructures/logger";
-import { AwsCodePairResponse } from "../interfaces/aws-codepair-response";
-import { AswTokenResponse } from "../interfaces/aws-token-response";
+import { AmazonCodePairResponse } from "../interfaces/amazon-codepair-response";
+import { AmazonTokenResponse } from "../interfaces/amazon-token-response";
 import * as readline from "readline";
 import { exec } from "child_process";
 import { Auth } from "./auth";
 
-class AwsAuth extends Auth implements AuthProvider {
+class AmazonAuth extends Auth implements AuthProvider {
   readonly awsAuthDir = path.resolve(__dirname, "../settings/.awsphotos_auth");
   readonly initFile = path.resolve(this.awsAuthDir, "init");
   readonly accessTokenFile = path.resolve(this.awsAuthDir, "access_token");
   readonly refreshTokenFile = path.resolve(this.awsAuthDir, "refresh_token");
 
-  constructor(aws: AwsConfig) {
+  constructor(aws: AmazonConfig) {
     super(aws);
   }
 
-  private async getCodePair(): Promise<AwsCodePairResponse> {
-    return this.invoke<AwsCodePairResponse>({
+  private async getCodePair(): Promise<AmazonCodePairResponse> {
+    return this.invoke<AmazonCodePairResponse>({
       url: this.authUri,
       method: "POST",
       body: {
@@ -31,8 +31,8 @@ class AwsAuth extends Auth implements AuthProvider {
   }
 
   private async getToken(
-    codePair: AwsCodePairResponse,
-  ): Promise<AswTokenResponse> {
+    codePair: AmazonCodePairResponse,
+  ): Promise<AmazonTokenResponse> {
     return this.invoke({
       url: this.tokenUri,
       method: "POST",
@@ -44,7 +44,7 @@ class AwsAuth extends Auth implements AuthProvider {
     });
   }
 
-  private async continue(codePair: AwsCodePairResponse) {
+  private async continue(codePair: AmazonCodePairResponse) {
     return new Promise(() => {
       const rl = readline.createInterface({
         input: process.stdin,
@@ -59,7 +59,7 @@ class AwsAuth extends Auth implements AuthProvider {
     });
   }
 
-  private openAuthLink(codePair: AwsCodePairResponse) {
+  private openAuthLink(codePair: AmazonCodePairResponse) {
     logger.info(`[user_code]: ${codePair?.user_code}`);
     logger.info(
       `Visit the link to log in Amazon and copy / paste the [user_code].`,
@@ -69,7 +69,7 @@ class AwsAuth extends Auth implements AuthProvider {
   }
 
   public async refresh() {
-    const data = await this.invoke<AswTokenResponse>({
+    const data = await this.invoke<AmazonTokenResponse>({
       url: this.tokenUri,
       method: "POST",
       body: {
@@ -89,4 +89,4 @@ class AwsAuth extends Auth implements AuthProvider {
   }
 }
 
-export { AwsAuth };
+export { AmazonAuth };
