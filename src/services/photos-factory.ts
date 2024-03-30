@@ -12,7 +12,7 @@ const providers: {
 };
 
 class PhotosFactory {
-  public static createPhotosProvider({
+  public static createPhotos({
     provider = config.providerDefault,
     auth,
   }: {

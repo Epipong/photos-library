@@ -9,7 +9,7 @@ const providers: { [provider: string]: () => AuthProvider } = {
 };
 
 class AuthFactory {
-  public static createAuthProvider({
+  static createAuth({
     provider = config.providerDefault,
   }: {
     provider?: string;

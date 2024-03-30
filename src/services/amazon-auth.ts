@@ -1,3 +1,4 @@
+import fs from "fs";
 import path from "path";
 import { AuthProvider } from "../interfaces/auth.provider";
 import { AmazonConfig } from "../interfaces/amazon-config";
@@ -7,11 +8,20 @@ import { AmazonTokenResponse } from "../interfaces/amazon-token-response";
 import * as readline from "readline";
 import { exec } from "child_process";
 import { Auth } from "./auth";
+import { Cookie } from "../entities/cookie";
 
 class AmazonAuth extends Auth implements AuthProvider {
+  cookieFile: string;
+  cookie?: Cookie;
 
   constructor(cfg: AmazonConfig) {
     super(cfg);
+    this.cookieFile = path.resolve(this.authDir, "cookie");
+    if (fs.existsSync(this.cookieFile)) {
+      const cookieRaw = fs.readFileSync(this.cookieFile).toString();
+      this.cookie = new Cookie(cookieRaw);
+      logger.debug(JSON.stringify(this.cookie.json, null, 2));
+    }
   }
 
   private async getCodePair(): Promise<AmazonCodePairResponse> {

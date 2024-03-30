@@ -1,5 +1,8 @@
 import * as googleCfg from "./google.config.json";
 import * as amazonCfg from "./amazon.config.json";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 const config = {
   providerDefault: "google",
