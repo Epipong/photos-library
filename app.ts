@@ -27,7 +27,7 @@ const main = async () => {
     albums: async () => await photos.main(opt.options),
     help: () => getopt.showHelp(),
   };
-  // commands[cmd in commands ? cmd : "help"]();
+  commands[cmd in commands ? cmd : "help"]();
 };
 
 main();
