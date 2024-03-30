@@ -1,14 +1,14 @@
 import fs from "fs";
 import path from "path";
-import { AuthProvider } from "../interfaces/auth.provider";
+import { AuthProvider } from "../../interfaces/auth.provider";
 import { AmazonConfig } from "../interfaces/amazon-config";
-import { logger } from "../infrastructures/logger";
+import { logger } from "../../infrastructures/logger";
 import { AmazonCodePairResponse } from "../interfaces/amazon-codepair-response";
 import { AmazonTokenResponse } from "../interfaces/amazon-token-response";
 import * as readline from "readline";
 import { exec } from "child_process";
-import { Auth } from "./auth";
-import { Cookie } from "../entities/cookie";
+import { Auth } from "../../services/auth";
+import { Cookie } from "../../entities/cookie";
 
 class AmazonAuth extends Auth implements AuthProvider {
   cookieFile: string;

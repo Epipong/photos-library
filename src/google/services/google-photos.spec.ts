@@ -1,6 +1,6 @@
 import Sinon from "sinon";
-import { AuthProvider } from "../interfaces/auth.provider";
-import { config } from "../settings/config";
+import { AuthProvider } from "../../interfaces/auth.provider";
+import { config } from "../../settings/config";
 import { GoogleAuth } from "./google-auth";
 import { GooglePhotos } from "./google-photos";
 

@@ -1,6 +1,6 @@
 import { AuthProvider } from "../interfaces/auth.provider";
 import { config } from "../settings/config";
-import { GoogleAuth } from "./google-auth";
+import { GoogleAuth } from "../google/services/google-auth";
 
 describe("auth", () => {
   describe("init", () => {

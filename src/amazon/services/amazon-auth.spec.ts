@@ -1,6 +1,6 @@
-import { AuthProvider } from "../interfaces/auth.provider";
+import { AuthProvider } from "../../interfaces/auth.provider";
 import { AmazonAuth } from "./amazon-auth";
-import config from "../settings/amazon.config.json";
+import config from "../../settings/amazon.config.json";
 import Sinon from "sinon";
 
 const auth: AuthProvider = new AmazonAuth(config.amz);

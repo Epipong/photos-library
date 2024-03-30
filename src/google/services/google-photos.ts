@@ -1,5 +1,5 @@
 import axios, { AxiosError, Method } from "axios";
-import { logger } from "../infrastructures/logger";
+import { logger } from "../../infrastructures/logger";
 import {
   GoogleAlbum,
   GoogleAlbumRequest,
@@ -8,9 +8,9 @@ import {
 import fs from "fs";
 import path from "path";
 import { MediaItem } from "../interfaces/media-item";
-import { singleBar as bar } from "../entities/single-bar";
-import { PhotosProvider } from "../interfaces/photos.provider";
-import { AuthProvider } from "../interfaces/auth.provider";
+import { singleBar as bar } from "../../entities/single-bar";
+import { PhotosProvider } from "../../interfaces/photos.provider";
+import { AuthProvider } from "../../interfaces/auth.provider";
 
 class GooglePhotos implements PhotosProvider {
   constructor(private auth: AuthProvider) {}

@@ -1,4 +1,4 @@
-import { AuthConfig } from "./auth-config";
+import { AuthConfig } from "../../interfaces/auth-config";
 
 interface GoogleConfig extends AuthConfig {
   project_id: string;

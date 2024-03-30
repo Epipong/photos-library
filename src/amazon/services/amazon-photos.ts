@@ -1,9 +1,9 @@
 import axios from "axios";
-import { AuthProvider } from "../interfaces/auth.provider";
-import { PhotosProvider } from "../interfaces/photos.provider";
-import { logger } from "../infrastructures/logger";
-import { AmazonAlbum, AmazonAlbumsResponse } from "../interfaces/amazon-albums";
-import { stringify } from "../utils/stringify";
+import { AuthProvider } from "../../interfaces/auth.provider";
+import { PhotosProvider } from "../../interfaces/photos.provider";
+import { logger } from "../../infrastructures/logger";
+import { AmazonAlbum, AmazonAlbumsResponse } from "../../interfaces/amazon-albums";
+import { stringify } from "../../utils/stringify";
 
 class AmazonPhotos implements PhotosProvider {
   constructor(private auth: AuthProvider) {}
