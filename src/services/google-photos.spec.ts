@@ -11,12 +11,10 @@ describe("GooglePhotos", () => {
   beforeAll(() => {
     const sandbox = Sinon.createSandbox();
     const stubGetAlbums = sandbox.stub(GooglePhotos.prototype, "getAlbums");
-    stubGetAlbums.resolves({
-      albums: [
-        { id: "1", productUrl: "", title: "Title 1" },
-        { id: "2", productUrl: "", title: "Title 2" },
-      ],
-    });
+    stubGetAlbums.resolves([
+      { id: "1", productUrl: "", title: "Title 1" },
+      { id: "2", productUrl: "", title: "Title 2" },
+    ]);
     const stubCreateAlbum = sandbox.stub(
       GooglePhotos.prototype,
       <any>"createAlbum",
@@ -29,9 +27,9 @@ describe("GooglePhotos", () => {
 
   describe("albums", () => {
     it("should return the albums", async () => {
-      const response = await photos.getAlbums();
-      expect(response.albums.length).toEqual(2);
-      expect(response.albums.pop()).toEqual({
+      const albums = await photos.getAlbums();
+      expect(albums!.length).toEqual(2);
+      expect(albums!.pop()).toEqual({
         id: "2",
         productUrl: "",
         title: "Title 2",

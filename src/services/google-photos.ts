@@ -1,6 +1,10 @@
 import axios, { AxiosError, Method } from "axios";
 import { logger } from "../infrastructures/logger";
-import { Album, AlbumRequest, AlbumsResponse } from "../interfaces/albums";
+import {
+  GoogleAlbum,
+  GoogleAlbumRequest,
+  GoogleAlbumsResponse,
+} from "../interfaces/google-albums";
 import fs from "fs";
 import path from "path";
 import { MediaItem } from "../interfaces/media-item";
@@ -53,8 +57,9 @@ class GooglePhotos implements PhotosProvider {
    * Get all albums.
    * @returns a promise of an array of albums.
    */
-  public async getAlbums(): Promise<AlbumsResponse> {
-    return this.invoke({ url: `${this.apiBase}/v1/albums` });
+  public async getAlbums(): Promise<GoogleAlbum[] | undefined> {
+    const result: GoogleAlbumsResponse = await this.invoke({ url: `${this.apiBase}/v1/albums` });
+    return result.albums;
   }
 
   /**
@@ -129,7 +134,7 @@ class GooglePhotos implements PhotosProvider {
    * @param title title of the album.
    * @returns a promise of the album.
    */
-  private async createAlbum(album: AlbumRequest): Promise<Album> {
+  private async createAlbum(album: GoogleAlbumRequest): Promise<GoogleAlbum> {
     return this.invoke({
       url: `${this.apiBase}/v1/albums`,
       method: "POST",
@@ -145,10 +150,10 @@ class GooglePhotos implements PhotosProvider {
    * @param source source path of the images to upload.
    */
   public async main({ title, source }: { title?: string; source?: string }) {
-    const result = await this.getAlbums();
+    const albums = await this.getAlbums();
     if (title) {
       const album =
-        result.albums?.find((album: Album) => album.title.includes(title)) ||
+        albums?.find((album: GoogleAlbum) => album.title.includes(title)) ||
         (await this.createAlbum({ title }));
       if (source) {
         const mediaItems = await this.uploadMedia(source);

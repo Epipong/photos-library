@@ -1,4 +1,4 @@
-interface Album {
+interface GoogleAlbum {
   id: string;
   title: string;
   productUrl: string;
@@ -8,13 +8,13 @@ interface Album {
   isWriteable?: string;
 }
 
-interface AlbumsResponse {
-  albums: Album[];
+interface GoogleAlbumsResponse {
+  albums: GoogleAlbum[];
 }
 
-interface AlbumRequest extends Partial<Album> {
+interface GoogleAlbumRequest extends Partial<GoogleAlbum> {
   id?: string;
   productUrl?: string;
 }
 
-export { AlbumsResponse, AlbumRequest, Album };
+export { GoogleAlbumsResponse, GoogleAlbumRequest, GoogleAlbum };
