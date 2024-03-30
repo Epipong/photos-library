@@ -37,7 +37,7 @@ type AmazonAlbum = {
   version: number;
   xAccntParentMap: {};
   xAccntParents: [];
-}
+};
 
 type AmazonAlbumsResponse = {
   count: number;

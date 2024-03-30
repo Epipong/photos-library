@@ -1,5 +1,3 @@
-import axios, { AxiosError, Method } from "axios";
-import { logger } from "../../infrastructures/logger";
 import {
   GoogleAlbum,
   GoogleAlbumRequest,
@@ -9,56 +7,25 @@ import fs from "fs";
 import path from "path";
 import { MediaItem } from "../interfaces/media-item";
 import { singleBar as bar } from "../../entities/single-bar";
-import { PhotosProvider } from "../../interfaces/photos.provider";
 import { AuthProvider } from "../../interfaces/auth.provider";
+import { PhotosLibray } from "../../services/photos-library";
 
-class GooglePhotos implements PhotosProvider {
-  constructor(private auth: AuthProvider) {}
-
-  private readonly apiBase = "https://photoslibrary.googleapis.com";
-  private readonly chunkSize = 50;
-
-  private async invoke({
-    url,
-    method = "GET",
-    body,
-    params,
-    contentType = "application/json",
-    headers,
-  }: {
-    url: string;
-    method?: Method;
-    body?: any;
-    params?: any;
-    contentType?: string;
-    headers?: any;
-  }) {
-    try {
-      const token = await this.auth.token();
-      const { data } = await axios({
-        url,
-        method,
-        headers: {
-          "Content-Type": contentType,
-          Authorization: `Bearer ${token}`,
-          ...headers,
-        },
-        data: body,
-        params,
-      });
-      return data;
-    } catch (err) {
-      logger.error(`[invoke] message: ${(err as AxiosError).message}`);
-      logger.error(JSON.stringify((err as AxiosError).response?.data, null, 2));
-    }
+class GooglePhotos extends PhotosLibray {
+  constructor(protected auth: AuthProvider) {
+    super(auth);
   }
+
+  protected readonly apiBase = "https://photoslibrary.googleapis.com";
+  private readonly chunkSize = 50;
 
   /**
    * Get all albums.
    * @returns a promise of an array of albums.
    */
   public async getAlbums(): Promise<GoogleAlbum[] | undefined> {
-    const result: GoogleAlbumsResponse = await this.invoke({ url: `${this.apiBase}/v1/albums` });
+    const result: GoogleAlbumsResponse = await this.invoke({
+      path: "/v1/albums",
+    });
     return result.albums;
   }
 
@@ -78,7 +45,7 @@ class GooglePhotos implements PhotosProvider {
     for (let i = 0; i < newMediaItems.length; i += this.chunkSize) {
       const items = newMediaItems.slice(i, i + this.chunkSize);
       await this.invoke({
-        url: `${this.apiBase}/v1/mediaItems:batchCreate`,
+        path: "/v1/mediaItems:batchCreate",
         method: "POST",
         body: {
           albumId: albumId,
@@ -105,7 +72,7 @@ class GooglePhotos implements PhotosProvider {
       const imgPath = path.resolve(source, img as string);
       const fileData = fs.readFileSync(imgPath);
       const uploadToken = await this.invoke({
-        url: `${this.apiBase}/v1/uploads`,
+        path: "/v1/uploads",
         method: "POST",
         contentType: "application/octet-stream",
         headers: {
@@ -136,7 +103,7 @@ class GooglePhotos implements PhotosProvider {
    */
   private async createAlbum(album: GoogleAlbumRequest): Promise<GoogleAlbum> {
     return this.invoke({
-      url: `${this.apiBase}/v1/albums`,
+      path: "/v1/albums",
       method: "POST",
       body: {
         album,

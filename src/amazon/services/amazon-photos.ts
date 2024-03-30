@@ -1,34 +1,26 @@
 import axios from "axios";
 import { AuthProvider } from "../../interfaces/auth.provider";
-import { PhotosProvider } from "../../interfaces/photos.provider";
 import { logger } from "../../infrastructures/logger";
-import { AmazonAlbum, AmazonAlbumsResponse } from "../../interfaces/amazon-albums";
+import { AmazonAlbum, AmazonAlbumsResponse } from "../interfaces/amazon-albums";
 import { stringify } from "../../utils/stringify";
+import { PhotosLibray } from "../../services/photos-library";
 
-class AmazonPhotos implements PhotosProvider {
-  constructor(private auth: AuthProvider) {}
+class AmazonPhotos extends PhotosLibray {
+  constructor(protected auth: AuthProvider) {
+    super(auth);
+  }
+
+  protected readonly apiBase = "https://www.amazon.fr";
 
   private async getAlbums(): Promise<AmazonAlbum[]> {
-    const token = await this.auth.token();
-    const { data } = await axios.get<AmazonAlbumsResponse>(
-      `https://www.amazon.fr/drive/v1/search?filters=type%3A(ALBUMS)&sort=%5B%27createdDate+DESC%27%5D`,
-      {
-        params: {
-          asset: "ALL",
-          lowResThumbnail: true,
-          limit: 200,
-          searchContext: "customer",
-          tempLink: false,
-          resourceVersion: "V2",
-          ContentType: "JSON",
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
+    const result: AmazonAlbumsResponse = await this.invoke({
+      path: "/drive/v1/search",
+      params: {
+        searchContext: "customer",
+        filters: encodeURI("type:(ALBUMS)"),
       },
-    );
-    return data.data;
+    });
+    return result.data;
   }
 
   public async main({ title, source }: { title?: string; source?: string }) {
