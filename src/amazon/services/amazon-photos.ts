@@ -1,4 +1,3 @@
-import axios from "axios";
 import { AuthProvider } from "../../interfaces/auth.provider";
 import { logger } from "../../infrastructures/logger";
 import { AmazonAlbum, AmazonAlbumsResponse } from "../interfaces/amazon-albums";
@@ -12,7 +11,7 @@ class AmazonPhotos extends PhotosLibray {
 
   protected readonly apiBase = "https://www.amazon.fr";
 
-  private async getAlbums(): Promise<AmazonAlbum[]> {
+  public async getAlbums(): Promise<AmazonAlbum[] | undefined> {
     const result: AmazonAlbumsResponse = await this.invoke({
       path: "/drive/v1/search",
       params: {

@@ -44,6 +44,8 @@ abstract class PhotosLibray implements PhotosProvider {
     }
   }
 
+  abstract getAlbums(): Promise<any>;
+
   abstract main({
     title,
     source,
