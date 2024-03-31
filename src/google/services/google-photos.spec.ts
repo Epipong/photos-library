@@ -1,10 +1,9 @@
 import Sinon from "sinon";
-import { AuthProvider } from "../../interfaces/auth.provider";
 import { config } from "../../settings/config";
 import { GoogleAuth } from "./google-auth";
 import { GooglePhotos } from "./google-photos";
 
-const auth: AuthProvider = new GoogleAuth(config.web);
+const auth = new GoogleAuth(config.web);
 const photos = new GooglePhotos(auth);
 
 describe("GooglePhotos", () => {

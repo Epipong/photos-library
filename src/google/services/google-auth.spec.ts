@@ -1,13 +1,13 @@
-import { AmazonAuth } from "./amazon-auth";
-import config from "../../settings/amazon.config.json";
 import Sinon from "sinon";
+import { config } from "../../settings/config";
+import { GoogleAuth } from "./google-auth";
 
-const auth = new AmazonAuth(config.amz);
+const auth: GoogleAuth = new GoogleAuth(config.web);
 
-describe("AmazonAuth", () => {
+describe("GoogleAuth", () => {
   beforeAll(() => {
     const sandbox = Sinon.createSandbox();
-    const stubToken = sandbox.stub(AmazonAuth.prototype, "token");
+    const stubToken = sandbox.stub(GoogleAuth.prototype, "token");
     stubToken.resolves("ABC123DEF");
   });
 
