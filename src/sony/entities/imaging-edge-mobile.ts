@@ -1,4 +1,4 @@
-import { config } from "../settings/config";
+import { config } from "../../settings/config";
 
 class ImagingEdgeMobile {
   private readonly sourcePathByOs: Map<NodeJS.Platform, string> = new Map([

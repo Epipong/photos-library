@@ -1,7 +1,7 @@
 #!/usr/bin/env ts-node
-import { ImagingEdgeMobile } from "./src/entities/imaging-edge-mobile";
+import { ImagingEdgeMobile } from "./src/sony/entities/imaging-edge-mobile";
 import { getopt, opt } from "./src/settings/posix-options";
-import { ImagingEdgeSrvc } from "./src/services/imaging-edge-srvc";
+import { ImagingEdgeSrvc } from "./src/sony/services/imaging-edge-srvc";
 import Getopt from "node-getopt";
 import { PhotosProvider } from "./src/interfaces/photos.provider";
 import { AuthProvider } from "./src/interfaces/auth.provider";
