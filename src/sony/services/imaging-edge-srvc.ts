@@ -1,9 +1,8 @@
 import { ImagingEdgeMobile } from "../entities/imaging-edge-mobile";
 import fs from "fs";
 import path from "path";
-import { singleBar as bar } from "../entities/single-bar";
-
-type extension = "JPG" | "ARW" | "MP4";
+import { singleBar as bar } from "../../entities/single-bar";
+import { extension } from "../interfaces/extension";
 
 class ImagingEdgeSrvc {
   constructor(private iem: ImagingEdgeMobile) {}

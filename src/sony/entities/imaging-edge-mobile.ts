@@ -1,10 +1,10 @@
-import { config } from "../settings/config";
+import { config } from "../../settings/config";
 
 class ImagingEdgeMobile {
   private readonly sourcePathByOs: Map<NodeJS.Platform, string> = new Map([
     ["android", config.sourcePathAndroid],
     ["linux", config.sourcePathLinux],
-    ["darwin", config.sourcePathMacOs]
+    ["darwin", config.sourcePathMacOs],
   ]);
 
   private readonly targetPathByOs: Map<NodeJS.Platform, string> = new Map([
