@@ -1,6 +1,6 @@
 import { AmazonAlbum } from "../amazon/interfaces/amazon-albums";
 
-const amazonAlbum: AmazonAlbum = {
+const album: AmazonAlbum = {
   createdBy: "Amazon Photos Web",
   createdDate: "2024-03-28T17:15:55.694Z",
   eTagResponse: "htcAbc-xxxx",
@@ -17,4 +17,4 @@ const amazonAlbum: AmazonAlbum = {
   version: 7,
 };
 
-export { amazonAlbum };
+export { album };

@@ -1,5 +1,5 @@
 class Cookie {
-  public json: { [key: string]: string };
+  private json: { [key: string]: string };
 
   constructor(cookieRaw: string) {
     this.json = cookieRaw
@@ -12,6 +12,10 @@ class Cookie {
         acc[key] = val;
         return acc;
       }, {});
+  }
+
+  toJSON(): string {
+    return JSON.stringify(this.json, null, 2);
   }
 }
 

@@ -20,7 +20,7 @@ class AmazonAuth extends Auth implements AuthProvider {
     if (fs.existsSync(this.cookieFile)) {
       const cookieRaw = fs.readFileSync(this.cookieFile).toString();
       this.cookie = new Cookie(cookieRaw);
-      logger.debug(JSON.stringify(this.cookie.json, null, 2));
+      logger.debug(this.cookie.toJSON());
     }
   }
 
