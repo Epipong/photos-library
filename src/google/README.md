@@ -1,5 +1,5 @@
 # Google Photos Library
-
+Configure Google Photos.
 
 ## Requirements
 - Have a Google account
@@ -48,7 +48,7 @@ Init the token before to call the others services.
 Paste the link after the authentication: https://www.googleapis.com/auth/photoslibrary?code=XXXX-XXX&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fphotoslibrary.sharing+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fphotoslibrary+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fphotoslibrary.appendonly
 ```
 
-Upload the photos to a specific album. If the album doesn't exist, it will be create.
+Upload the photos to a specific album. If the album doesn't exist, it will be created.
 ```sh
 # upload all images to the album 'summer 2024' from the directory /home/user/pictures
 > ts-node app.ts album --title 'Summer 2024' --source /home/user/pictures
