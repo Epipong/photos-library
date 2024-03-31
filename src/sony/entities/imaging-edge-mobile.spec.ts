@@ -1,8 +1,7 @@
-import { logger } from "../../infrastructures/logger";
-import { config } from "../../settings/config";
 import { ImagingEdgeMobile } from "./imaging-edge-mobile";
 
 const originalEnv = process.env;
+
 describe("Imaging Edge Mobile", () => {
   beforeAll(() => {
     jest.resetModules();

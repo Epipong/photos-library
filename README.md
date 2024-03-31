@@ -2,50 +2,15 @@
 
 Application to manage the media files for Sony Alpha cameras.
 
+## Summary
+- [Guide to configure the Google Photos feature](./src/google/README.md)
+
 ## Features
 
 - import the media files and sort by date created and type.
 - export the media files to a specific location.
-- initialize a connection to Google Photos API.
+- initialize a connection to a cloud provider.
 - publish the photos JPG to a specific album.
-
-## Requirements
-
-### Configuration - Google Photos API
-
-Set up your file `oauth2.key.json` in `./src/settings/` to use **Google Photos API**.
-
-```sh
-.
-└── src
-    └── settings
-        └── oauth2.key.json
-```
-
-Inside the file google.config.json, set up the following fields:
-
-- client_id
-- client_secret
-- project_id
-
-```json
-{
-  "web": {
-    "client_id": "XXXX-XXXX.apps.googleusercontent.com",
-    "project_id": "carbide-XXXX-XXXX",
-    "auth_uri": "https://accounts.google.com/o/oauth2/v2/auth",
-    "token_uri": "https://www.googleapis.com/oauth2/v4/token",
-    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-    "client_secret": "ABCDEFG1234567890-XXXX-X",
-    "redirect_uris": [
-      "https://www.googleapis.com/auth/photoslibrary.sharing",
-      "https://www.googleapis.com/auth/photoslibrary.appendonly",
-      "https://www.googleapis.com/auth/photoslibrary"
-    ],
-    "redirect_uri": "https://www.googleapis.com/auth/photoslibrary"
-  }
-}
-```
 
 ## Installation
 
