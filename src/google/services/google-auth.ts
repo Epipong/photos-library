@@ -3,7 +3,7 @@ import * as readline from "readline";
 import { GoogleTokenResponse } from "../interfaces/google-token-response";
 import { GoogleRequestParams } from "../interfaces/google-request-params";
 import { GoogleConfig } from "../interfaces/google-config";
-import { Auth } from "../../services/auth";
+import { Auth } from "../../services/auth/auth";
 
 class GoogleAuth extends Auth {
   projectId: string;

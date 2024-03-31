@@ -7,7 +7,7 @@ import { AmazonCodePairResponse } from "../interfaces/amazon-codepair-response";
 import { AmazonTokenResponse } from "../interfaces/amazon-token-response";
 import * as readline from "readline";
 import { exec } from "child_process";
-import { Auth } from "../../services/auth";
+import { Auth } from "../../services/auth/auth";
 import { Cookie } from "../../entities/cookie";
 
 class AmazonAuth extends Auth implements AuthProvider {

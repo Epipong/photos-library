@@ -1,8 +1,8 @@
 import { AuthProvider } from "../../interfaces/auth.provider";
 import { logger } from "../../infrastructures/logger";
 import { AmazonAlbum, AmazonAlbumsResponse } from "../interfaces/amazon-albums";
-import { stringify } from "../../utils/stringify";
-import { PhotosLibray } from "../../services/photos-library";
+import { stringify } from "../../services/utils/stringify";
+import { PhotosLibray } from "../../services/photos/photos-library";
 
 class AmazonPhotos extends PhotosLibray {
   constructor(protected auth: AuthProvider) {

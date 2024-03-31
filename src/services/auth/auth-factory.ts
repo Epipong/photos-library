@@ -1,7 +1,7 @@
-import { AuthProvider } from "../interfaces/auth.provider";
-import { config } from "../settings/config";
-import { AmazonAuth } from "../amazon/services/amazon-auth";
-import { GoogleAuth } from "../google/services/google-auth";
+import { AuthProvider } from "../../interfaces/auth.provider";
+import { config } from "../../settings/config";
+import { AmazonAuth } from "../../amazon/services/amazon-auth";
+import { GoogleAuth } from "../../google/services/google-auth";
 
 const providers: { [provider: string]: () => AuthProvider } = {
   google: () => new GoogleAuth(config.web),

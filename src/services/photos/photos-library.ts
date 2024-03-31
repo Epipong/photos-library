@@ -1,7 +1,7 @@
 import axios, { AxiosError, Method } from "axios";
-import { PhotosProvider } from "../interfaces/photos.provider";
-import { AuthProvider } from "../interfaces/auth.provider";
-import { logger } from "../infrastructures/logger";
+import { PhotosProvider } from "../../interfaces/photos.provider";
+import { AuthProvider } from "../../interfaces/auth.provider";
+import { logger } from "../../infrastructures/logger";
 import { stringify } from "../utils/stringify";
 
 abstract class PhotosLibray implements PhotosProvider {

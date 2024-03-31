@@ -2,11 +2,10 @@
 import { ImagingEdgeMobile } from "./src/sony/entities/imaging-edge-mobile";
 import { getopt, opt } from "./src/settings/posix-options";
 import { ImagingEdgeSrvc } from "./src/sony/services/imaging-edge-srvc";
-import Getopt from "node-getopt";
 import { PhotosProvider } from "./src/interfaces/photos.provider";
 import { AuthProvider } from "./src/interfaces/auth.provider";
-import { AuthFactory } from "./src/services/auth-factory";
-import { PhotosFactory } from "./src/services/photos-factory";
+import { AuthFactory } from "./src/services/auth/auth-factory";
+import { PhotosFactory } from "./src/services/photos/photos-factory";
 
 const main = async () => {
   const auth: AuthProvider = AuthFactory.createAuth(opt.options);
@@ -18,7 +17,7 @@ const main = async () => {
   });
   const cmd: string = process.argv[2];
   const commands: {
-    [cmd: string]: () => void | Promise<void> | Promise<string> | Getopt;
+    [cmd: string]: () => any;
   } = {
     import: () => manager.importFiles(opt.options.force as boolean),
     export: () => manager.exportFiles(opt.options.force as boolean),

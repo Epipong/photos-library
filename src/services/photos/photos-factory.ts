@@ -1,8 +1,8 @@
-import { AuthProvider } from "../interfaces/auth.provider";
-import { PhotosProvider } from "../interfaces/photos.provider";
-import { config } from "../settings/config";
-import { AmazonPhotos } from "../amazon/services/amazon-photos";
-import { GooglePhotos } from "../google/services/google-photos";
+import { AuthProvider } from "../../interfaces/auth.provider";
+import { PhotosProvider } from "../../interfaces/photos.provider";
+import { config } from "../../settings/config";
+import { AmazonPhotos } from "../../amazon/services/amazon-photos";
+import { GooglePhotos } from "../../google/services/google-photos";
 
 const providers: {
   [provider: string]: (auth: AuthProvider) => PhotosProvider;

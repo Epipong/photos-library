@@ -1,8 +1,8 @@
-import { AuthConfig } from "../interfaces/auth-config";
+import { AuthConfig } from "../../interfaces/auth-config";
 import path from "path";
 import fs from "fs";
-import { AuthProvider } from "../interfaces/auth.provider";
-import { logger } from "../infrastructures/logger";
+import { AuthProvider } from "../../interfaces/auth.provider";
+import { logger } from "../../infrastructures/logger";
 import axios, { AxiosError, Method } from "axios";
 
 abstract class Auth implements AuthProvider {

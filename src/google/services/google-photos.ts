@@ -8,7 +8,7 @@ import path from "path";
 import { MediaItem } from "../interfaces/media-item";
 import { singleBar as bar } from "../../entities/single-bar";
 import { AuthProvider } from "../../interfaces/auth.provider";
-import { PhotosLibray } from "../../services/photos-library";
+import { PhotosLibray } from "../../services/photos/photos-library";
 
 class GooglePhotos extends PhotosLibray {
   constructor(protected auth: AuthProvider) {
