@@ -1,3 +1,5 @@
+[home](../../README.md) / google
+
 # Google Photos Library
 Configure Google Photos.
 
@@ -44,7 +46,7 @@ Inside the file `google.config.json`, change the fields:
 Init the token before to call the others services.
 ```sh
 # open a link to log in, connect to your account then copy / paste the link to extract the code
-> ts-node app.ts init
+> ts-node app.ts init -p google
 Paste the link after the authentication: https://www.googleapis.com/auth/photoslibrary?code=XXXX-XXX&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fphotoslibrary.sharing+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fphotoslibrary+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fphotoslibrary.appendonly
 ```
 

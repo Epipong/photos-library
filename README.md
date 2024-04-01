@@ -3,7 +3,8 @@
 Application to manage the media files for Sony Alpha cameras.
 
 ## Summary
-- [Guide to configure the Google Photos feature](./src/google/README.md)
+- [Guide to configure Google Photos](./src/google/README.md)
+- [Guide to configure Amazon Photos](./src/amazon/README.md)
 
 ## Features
 
@@ -78,7 +79,7 @@ The command line will copy the content from `/home/user/pictures` to `/mnt/e/pic
 
 ```sh
 # run the import command
-> ts-node app.ts export -s /home/user/pictures -d /mnt/e/pictures
+> ts-node app.ts export --source /home/user/pictures --dest /mnt/e/pictures
 ```
 
 ## Case 3 - upload the images to Google Photos
@@ -88,11 +89,11 @@ to the album called `Summer 2024`. If the album doesn't exist, it will be create
 
 ```sh
 # open a link to log in, connect to your account then copy / paste the link to extract the code
-> ts-node app.ts init
+> ts-node app.ts init --provider google
 Paste the link after the authentication: https://www.googleapis.com/auth/photoslibrary?code=XXXX-XXX&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fphotoslibrary.sharing+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fphotoslibrary+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fphotoslibrary.appendonly
 
 # upload all images to the album 'summer 2024'
-> ts-node app.ts album -t 'Summer 2024' -s /home/user/pictures
+> ts-node app.ts album --title 'Summer 2024' --source /home/user/pictures
 ```
 
 note: the images can be upload only from album created by this app.
