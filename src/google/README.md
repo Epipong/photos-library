@@ -1,15 +1,19 @@
 [home](../../README.md) / google
 
 # Google Photos Library
+
 Configure Google Photos.
 
 ## Requirements
+
 - Have a Google account
 - Get the credentials in [Google console](https://console.cloud.google.com/apis/credentials)
 - Configure the file `google.config.json` in `./src/settings/`
 
 ## Configuration
+
 Create or edit the file `google.config.json`.
+
 ```sh
 .
 └── src
@@ -18,9 +22,11 @@ Create or edit the file `google.config.json`.
 ```
 
 Inside the file `google.config.json`, change the fields:
+
 - client_id
 - client_secret
 - project_id (optional)
+
 ```json
 {
   "web": {
@@ -44,6 +50,7 @@ Inside the file `google.config.json`, change the fields:
 ## Usage
 
 Init the token before to call the others services.
+
 ```sh
 # open a link to log in, connect to your account then copy / paste the link to extract the code
 > ts-node app.ts init -p google
@@ -51,10 +58,12 @@ Paste the link after the authentication: https://www.googleapis.com/auth/photosl
 ```
 
 Upload the photos to a specific album. If the album doesn't exist, it will be created.
+
 ```sh
 # upload all images to the album 'summer 2024' from the directory /home/user/pictures
 > ts-node app.ts album --title 'Summer 2024' --source /home/user/pictures
 ```
 
 ## Note
+
 You can only upload the images to an album created by this app.

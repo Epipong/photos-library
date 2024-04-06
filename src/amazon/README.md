@@ -1,15 +1,19 @@
 [home](../../README.md) / amazon
 
 # Amazon Photos
+
 Configure Amazon Photos.
 
 ## Requirements
+
 - Have an Amazon account
 - Get the credentials from... TBD
 - Configure the file `amazon.config.json` in `./src/settings/`
 
 ## Configuration
+
 Create or edit the file `amazon.config.json`.
+
 ```sh
 .
 └── src
@@ -18,8 +22,10 @@ Create or edit the file `amazon.config.json`.
 ```
 
 Inside the file `google.config.json`, change the fields:
+
 - client_id
 - client_secret
+
 ```json
 {
   "amz": {

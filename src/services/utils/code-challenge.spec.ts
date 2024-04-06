@@ -1,4 +1,8 @@
-import { computeCodeChallengeFromVerifier, generateRandomBase64String, isCodeVerifierValid } from "./code-challenge";
+import {
+  computeCodeChallengeFromVerifier,
+  generateRandomBase64String,
+  isCodeVerifierValid,
+} from "./code-challenge";
 
 describe("Code Challenge", () => {
   describe("generateRandomBase64String", () => {
@@ -11,7 +15,8 @@ describe("Code Challenge", () => {
   describe("isCodeVerifierValid", () => {
     it("should be true.", async () => {
       const codeVerifier = await generateRandomBase64String(24);
-      const codeChallenge = await computeCodeChallengeFromVerifier(codeVerifier);
+      const codeChallenge =
+        await computeCodeChallengeFromVerifier(codeVerifier);
       const result = await isCodeVerifierValid(codeVerifier, codeChallenge);
       expect(result).toEqual(true);
     });

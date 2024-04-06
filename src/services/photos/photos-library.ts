@@ -1,8 +1,7 @@
-import axios, { AxiosError, Method } from "axios";
+import axios, { Method } from "axios";
 import { PhotosProvider } from "../../interfaces/photos.provider";
 import { AuthProvider } from "../../interfaces/auth.provider";
-import { logger } from "../../infrastructures/logger";
-import { stringify } from "../utils/stringify";
+import { logError } from "../../infrastructures/logger";
 
 abstract class PhotosLibray implements PhotosProvider {
   constructor(protected auth: AuthProvider) {}
@@ -38,9 +37,9 @@ abstract class PhotosLibray implements PhotosProvider {
         params,
       });
       return data;
-    } catch (err) {
-      logger.error(`[invoke] message: ${(err as AxiosError).message}`);
-      logger.error(stringify((err as AxiosError).response?.data));
+    } catch (err: any) {
+      logError(err);
+      throw new Error();
     }
   }
 
