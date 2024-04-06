@@ -1,16 +1,17 @@
-# iem-express
+# Photos Library
 
 Application to manage the media files for Sony Alpha cameras.
-
-## Summary
-- [Guide to configure the Google Photos feature](./src/google/README.md)
 
 ## Features
 
 - import the media files and sort by date created and type.
 - export the media files to a specific location.
-- initialize a connection to a cloud provider.
-- publish the photos JPG to a specific album.
+- initialize a connection to a cloud photos provider and publish the photos to an album.
+
+## Providers
+
+- [Google Photos](./src/google/README.md)
+- [Amazon Photos](./src/amazon/README.md)
 
 ## Installation
 
@@ -42,7 +43,7 @@ Options:
 
 ### Case 1 - import media files from SD Card
 
-The command lines will import the media files from `/storage/0000-0000` to `/home/user/pictures`
+The command lines will import the media files from `/storage/0000-0000` to `/home/user/pictures`. The files will be sorted in folder by date created and by extension type.
 
 ```sh
 # display the content of the SD Card directory
@@ -74,25 +75,31 @@ The command lines will import the media files from `/storage/0000-0000` to `/hom
 
 ## Case 2 - export to external storage
 
-The command line will copy the content from `/home/user/pictures` to `/mnt/e/pictures`
+The command line will just copy the content from `/home/user/pictures` to `/mnt/e/pictures`
 
 ```sh
 # run the import command
-> ts-node app.ts export -s /home/user/pictures -d /mnt/e/pictures
+> ts-node app.ts export --source /home/user/pictures --dest /mnt/e/pictures
 ```
 
 ## Case 3 - upload the images to Google Photos
 
-The command lines will init a valid token and upload all JPG images from `/home/user/pictures`
+The command lines will init a valid token and upload all images from `/home/user/pictures`
 to the album called `Summer 2024`. If the album doesn't exist, it will be created.
 
 ```sh
-# open a link to log in, connect to your account then copy / paste the link to extract the code
-> ts-node app.ts init
+# open a link to log in, connect to your account then paste the link to extract the code XXXX-XXX
+> ts-node app.ts init --provider google
 Paste the link after the authentication: https://www.googleapis.com/auth/photoslibrary?code=XXXX-XXX&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fphotoslibrary.sharing+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fphotoslibrary+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fphotoslibrary.appendonly
 
+# display the location of the access token
+> tree src/settings/.gphotos_auth
+src/settings/.gphotos_auth
+├── access_token
+└── init
+
 # upload all images to the album 'summer 2024'
-> ts-node app.ts album -t 'Summer 2024' -s /home/user/pictures
+> ts-node app.ts album --title 'Summer 2024' --source /home/user/pictures
 ```
 
 note: the images can be upload only from album created by this app.

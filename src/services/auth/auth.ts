@@ -2,8 +2,8 @@ import { AuthConfig } from "../../interfaces/auth-config";
 import path from "path";
 import fs from "fs";
 import { AuthProvider } from "../../interfaces/auth.provider";
-import { logger } from "../../infrastructures/logger";
-import axios, { AxiosError, Method } from "axios";
+import { logError } from "../../infrastructures/logger";
+import axios, { Method } from "axios";
 
 abstract class Auth implements AuthProvider {
   protected clientId: string;
@@ -73,9 +73,8 @@ abstract class Auth implements AuthProvider {
         params,
       });
       return data;
-    } catch (err) {
-      logger.error(`[invoke]: ${(err as AxiosError).message}`);
-      logger.error(`[invoke]: ${(err as AxiosError).stack}`);
+    } catch (err: any) {
+      logError(err);
       throw new Error();
     }
   }
