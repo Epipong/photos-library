@@ -23,7 +23,7 @@ const main = async () => {
     .with("token", async () => await auth.token())
     .with("albums", async () => await photos.main(opt.options))
     .with("help", () => getopt.showHelp())
-    .otherwise(() => getopt.showHelp())
+    .otherwise(() => getopt.showHelp());
 };
 
 main();

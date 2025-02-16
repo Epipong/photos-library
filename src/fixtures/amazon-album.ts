@@ -1,6 +1,6 @@
 import { AmazonAlbum } from "../amazon/interfaces/amazon-albums";
 
-const album: AmazonAlbum = {
+const album: Readonly<AmazonAlbum> = {
   createdBy: "Amazon Photos Web",
   createdDate: "2024-03-28T17:15:55.694Z",
   eTagResponse: "htcAbc-xxxx",

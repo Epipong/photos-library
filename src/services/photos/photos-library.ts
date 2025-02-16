@@ -8,7 +8,7 @@ abstract class PhotosLibray implements PhotosProvider {
 
   protected abstract readonly apiBase: string;
 
-  protected async invoke({
+  protected async invoke<T>({
     path,
     method = "GET",
     body,
@@ -22,7 +22,7 @@ abstract class PhotosLibray implements PhotosProvider {
     params?: any;
     contentType?: string;
     headers?: any;
-  }) {
+  }): Promise<T> {
     try {
       const token = await this.auth.token();
       const { data } = await axios({
@@ -43,7 +43,7 @@ abstract class PhotosLibray implements PhotosProvider {
     }
   }
 
-  abstract getAlbums(): Promise<any>;
+  abstract getAlbums(): Promise<unknown>;
 
   abstract main({
     title,

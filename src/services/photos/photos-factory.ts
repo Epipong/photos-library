@@ -9,6 +9,7 @@ const providers: {
 } = {
   google: (auth) => new GooglePhotos(auth),
   amazon: (auth) => new AmazonPhotos(auth),
+  default: (auth) => new GooglePhotos(auth),
 };
 
 class PhotosFactory {
@@ -19,7 +20,7 @@ class PhotosFactory {
     provider?: string;
     auth: AuthProvider;
   }): PhotosProvider {
-    return providers[provider in providers ? provider : "google"](auth);
+    return providers[provider in providers ? provider : "default"](auth);
   }
 }
 

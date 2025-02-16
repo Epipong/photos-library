@@ -6,6 +6,7 @@ import { GoogleAuth } from "../../google/services/google-auth";
 const providers: { [provider: string]: () => AuthProvider } = {
   google: () => new GoogleAuth(config.web),
   amazon: () => new AmazonAuth(config.amz),
+  default: () => new GoogleAuth(config.web),
 };
 
 class AuthFactory {
@@ -14,7 +15,7 @@ class AuthFactory {
   }: {
     provider?: string;
   }): AuthProvider {
-    return providers[provider in providers ? provider : "google"]();
+    return providers[provider in providers ? provider : "default"]();
   }
 }
 

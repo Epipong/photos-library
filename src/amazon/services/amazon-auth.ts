@@ -20,12 +20,11 @@ class AmazonAuth extends Auth implements AuthProvider {
     if (fs.existsSync(this.cookieFile)) {
       const cookieRaw = fs.readFileSync(this.cookieFile).toString();
       this.cookie = new Cookie(cookieRaw);
-      // logger.debug(this.cookie.toJSON());
     }
   }
 
   private async getCodePair(): Promise<AmazonCodePairResponse> {
-    return this.invoke<AmazonCodePairResponse>({
+    return this.invoke({
       url: this.authUri,
       method: "POST",
       body: {

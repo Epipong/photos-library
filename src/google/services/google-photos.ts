@@ -71,7 +71,7 @@ class GooglePhotos extends PhotosLibray {
     for (const img of images) {
       const imgPath = path.resolve(source, img as string);
       const fileData = fs.readFileSync(imgPath);
-      const uploadToken = await this.invoke({
+      const uploadToken: string = await this.invoke({
         path: "/v1/uploads",
         method: "POST",
         contentType: "application/octet-stream",
